@@ -1,0 +1,3389 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    137635,       3381]
+NotebookOptionsPosition[    127025,       3200]
+NotebookOutlinePosition[    127401,       3216]
+CellTagsIndexPosition[    127358,       3213]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Final Project: Constructing Regular Polygons from Euclid\[CloseCurlyQuote]s \
+Elements\
+\>", "Title",
+ CellChangeTimes->{{3.7536634936893616`*^9, 3.7536635112292175`*^9}, {
+  3.753663556688809*^9, 
+  3.753663559092003*^9}},ExpressionUUID->"223b12be-1c8d-48aa-b900-\
+31f8e3034212"],
+
+Cell["By: Ethan Remsberg", "Subsection",
+ CellChangeTimes->{{3.7536635462809963`*^9, 
+  3.7536635554543343`*^9}},ExpressionUUID->"ee22b392-197e-4986-a49a-\
+586490682d31"],
+
+Cell[CellGroupData[{
+
+Cell["Constructing Angles", "Section",
+ CellChangeTimes->{{3.7537068695701323`*^9, 3.753706877425352*^9}, {
+  3.753709787892205*^9, 
+  3.753709791302558*^9}},ExpressionUUID->"56a3a098-46e1-4111-a8b5-\
+cba296080d8f"],
+
+Cell["\<\
+All of Euclid\[CloseCurlyQuote]s proofs assume that the only tools you have \
+are a compass and a straightedge. Without a protractor, drawing precise \
+angles is not possible (and would make these problems trivial). Instead, \
+angles are often constructed by copying an already existing angle. This is \
+possible using just a compass and straightedge. \
+\>", "Text",
+ CellChangeTimes->{{3.7537068908280945`*^9, 3.7537070640228815`*^9}, {
+  3.753707096688734*^9, 3.7537071101717124`*^9}, {3.7537071820415154`*^9, 
+  3.7537071831131277`*^9}},ExpressionUUID->"2601face-501f-48bd-86f3-\
+ba9a0538f8f6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", "0"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", " ", "0"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", " ", "4"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", "b"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"c", ",", " ", "b"}], "}"}], "]"}]}], "}"}], ",", " ", 
+   RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7537071880662565`*^9, 3.753707256260027*^9}, {
+  3.7537073559655256`*^9, 3.753707438869014*^9}, {3.753707469517883*^9, 
+  3.753707477399129*^9}},ExpressionUUID->"38533177-3884-40fc-a488-\
+7f371f791cdf"],
+
+Cell[BoxData[
+ GraphicsBox[{LineBox[{{4, 4}, {0, 0}}], LineBox[{{4, 0}, {0, 0}}]},
+  ImageSize->Small]], "Output",
+ CellChangeTimes->{{3.75370724324706*^9, 3.753707256653973*^9}, {
+   3.753707402506073*^9, 3.753707439238031*^9}, 3.753707478266378*^9, 
+   3.7537296213632364`*^9, 3.7537305164221916`*^9, 3.753730622219489*^9, 
+   3.7537321122514825`*^9},ExpressionUUID->"ab7a95cb-9fd5-426f-b469-\
+2032563cfc1c"]
+}, Open  ]],
+
+Cell["\<\
+Let this angle ABC be the one we want to copy. We begin by drawing an arc \
+centered at the vertex B. \
+\>", "Text",
+ CellChangeTimes->{{3.7537072713875923`*^9, 3.7537072894463234`*^9}, {
+  3.7537073298483353`*^9, 3.753707345627158*^9}, {3.7537074852589703`*^9, 
+  3.7537075390106316`*^9}},ExpressionUUID->"9c60d67b-8a08-4a18-8dea-\
+8a1619bd7f58"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"x", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Sqrt", "[", "2", "]"}], ",", " ", 
+     RowBox[{"Sqrt", "[", "2", "]"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"y", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", " ", "0"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"angle1", " ", "=", 
+  RowBox[{"Graphics", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", "b"}], "}"}], "]"}], ",", " ", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"c", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+      " ", 
+      RowBox[{"Circle", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "2", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "\[Pi]"}], "/", "4"}], ",", " ", 
+          RowBox[{"\[Pi]", "/", "3"}]}], "}"}]}], "]"}], ",", " ", 
+      RowBox[{"Point", "[", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", " ", "y"}], "}"}], "]"}]}], "}"}], ",", " ", 
+    RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.753707557776908*^9, 3.753707624127015*^9}, {
+  3.7537076769609146`*^9, 3.753707747118045*^9}, {3.7537078589353485`*^9, 
+  3.753707862619585*^9}},ExpressionUUID->"a1ce121c-421d-4519-b495-\
+2be9a4589337"],
+
+Cell[BoxData[
+ GraphicsBox[{LineBox[{{4, 4}, {0, 0}}], LineBox[{{4, 0}, {0, 0}}], 
+   {RGBColor[0, 0, 1], 
+    CircleBox[{0, 0}, 2, 
+     NCache[{Rational[-1, 4] Pi, Rational[1, 3] Pi}, {-0.7853981633974483, 
+      1.0471975511965976`}]], 
+    PointBox[NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+       1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}},
+  ImageSize->Small]], "Output",
+ CellChangeTimes->{
+  3.7537075504874444`*^9, {3.7537076025214753`*^9, 3.7537076245389094`*^9}, 
+   3.7537077113276715`*^9, 3.7537077478780107`*^9, 3.753707865058386*^9, 
+   3.7537296214091043`*^9, 3.7537305164840727`*^9, 3.7537306223042316`*^9, 
+   3.753732112338249*^9},ExpressionUUID->"234db492-2d1e-4c6a-9a09-\
+0bb45abdb0da"]
+}, Open  ]],
+
+Cell["\<\
+The points of intersection of the arc and the rays AB and BC will be denoted \
+X and Y, respectively. Using a compass, we can draw an arc of the same radius \
+onto any new straight line.\
+\>", "Text",
+ CellChangeTimes->{{3.7537076401757965`*^9, 3.753707666899407*^9}, {
+  3.753707811283802*^9, 3.7537078428118553`*^9}, {3.75382809416704*^9, 
+  3.7538281240569086`*^9}},ExpressionUUID->"c704b53f-2508-4ce5-a4e4-\
+c3b8f90e5033"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"angle2", " ", "=", " ", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"c", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+       " ", 
+       RowBox[{"Circle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "2", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "\[Pi]"}], "/", "4"}], ",", " ", 
+           RowBox[{"\[Pi]", "/", "3"}]}], "}"}]}], "]"}]}], "}"}], ",", " ", 
+     RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GraphicsGrid", "[", 
+  RowBox[{"{", 
+   RowBox[{"{", 
+    RowBox[{"angle1", ",", " ", "angle2"}], "}"}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7537078774956865`*^9, 
+  3.753707954278865*^9}},ExpressionUUID->"f7ff7fb0-ea55-4b38-92e7-\
+844e9933913a"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {InsetBox[
+     GraphicsBox[{LineBox[{{4, 4}, {0, 0}}], LineBox[{{4, 0}, {0, 0}}], 
+       {RGBColor[0, 0, 1], 
+        CircleBox[{0, 0}, 2, 
+         NCache[{Rational[-1, 4] Pi, Rational[1, 3] Pi}, {-0.7853981633974483,
+           1.0471975511965976`}]], 
+        PointBox[
+         NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+           1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}},
+      ImageSize->Small], {96., -94.5}, 
+     ImageScaled[{0.5, 0.5}], {132.98330250652654, 180}], InsetBox[
+     GraphicsBox[{LineBox[{{4, 0}, {0, 0}}], 
+       {RGBColor[0, 0, 1], 
+        CircleBox[{0, 0}, 2, 
+         NCache[{Rational[-1, 4] Pi, Rational[1, 3] Pi}, {-0.7853981633974483,
+           1.0471975511965976`}]]}},
+      ImageSize->Small], {286.89382990611796, -93.39382990611796}, 
+     ImageScaled[{0.5, 0.5}], {180, 141.58189664738873}]}, {}},
+  ContentSelectable->True,
+  ImagePadding->{{60.761854, 85.48632}, {1.111111, 0.}},
+  ImageSize->{396., 201.},
+  PlotRange->{{90., 294.}, {-194., 5.}},
+  PlotRangePadding->Automatic]], "Output",
+ CellChangeTimes->{{3.753707938479167*^9, 3.7537079548531084`*^9}, 
+   3.7537296214360476`*^9, 3.753730516519977*^9, 3.753730622337179*^9, 
+   3.7537321123861217`*^9},ExpressionUUID->"85a9583b-3ac9-42f6-afe8-\
+0916aa6f1582"]
+}, Open  ]],
+
+Cell["\<\
+Then, using the compass, we are able to copy the straight-line distance \
+between X and Y. This can be transferred onto our new angle to find the third \
+vertex of the angle.\
+\>", "Text",
+ CellChangeTimes->{{3.7537082123810806`*^9, 
+  3.753708269206521*^9}},ExpressionUUID->"00c5f3be-88a2-4c02-b303-\
+35b90e1717e3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"angle1", " ", "=", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"a", ",", "b"}], "}"}], "]"}], ",", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"c", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+       " ", 
+       RowBox[{"Circle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "2", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "\[Pi]"}], "/", "4"}], ",", " ", 
+           RowBox[{"\[Pi]", "/", "3"}]}], "}"}]}], "]"}], ",", " ", 
+       RowBox[{"Point", "[", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", " ", "y"}], "}"}], "]"}], ",", " ", "Red", ",", 
+       " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", " ", "y"}], "}"}], "]"}]}], "}"}], ",", " ", 
+     RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"angle2", " ", "=", " ", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"c", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+       " ", 
+       RowBox[{"Circle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "2", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "\[Pi]"}], "/", "4"}], ",", " ", 
+           RowBox[{"\[Pi]", "/", "3"}]}], "}"}]}], "]"}], ",", " ", "Red", 
+       ",", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", " ", "y"}], "}"}], "]"}]}], "}"}], ",", " ", 
+     RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GraphicsGrid", "[", 
+  RowBox[{"{", 
+   RowBox[{"{", 
+    RowBox[{"angle1", ",", " ", "angle2"}], "}"}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7537083144843607`*^9, 
+  3.753708376343295*^9}},ExpressionUUID->"c325cfd6-89cc-4223-add6-\
+d7bafd62da71"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {InsetBox[
+     GraphicsBox[{LineBox[{{4, 4}, {0, 0}}], LineBox[{{4, 0}, {0, 0}}], 
+       {RGBColor[0, 0, 1], 
+        CircleBox[{0, 0}, 2, 
+         NCache[{Rational[-1, 4] Pi, Rational[1, 3] Pi}, {-0.7853981633974483,
+           1.0471975511965976`}]], 
+        PointBox[
+         NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+           1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}, 
+       {RGBColor[1, 0, 0], 
+        LineBox[NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+           1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}},
+      ImageSize->Small], {96., -94.5}, 
+     ImageScaled[{0.5, 0.5}], {132.98330250652654, 180}], InsetBox[
+     GraphicsBox[{LineBox[{{4, 0}, {0, 0}}], 
+       {RGBColor[0, 0, 1], 
+        CircleBox[{0, 0}, 2, 
+         NCache[{Rational[-1, 4] Pi, Rational[1, 3] Pi}, {-0.7853981633974483,
+           1.0471975511965976`}]]}, 
+       {RGBColor[1, 0, 0], 
+        LineBox[NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+           1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}},
+      ImageSize->Small], {288., -94.5}, 
+     ImageScaled[{0.5, 0.5}], {180, 141.58189664738873}]}, {}},
+  ContentSelectable->True,
+  ImageSize->{396., 201.},
+  PlotRangePadding->{6, 5}]], "Output",
+ CellChangeTimes->{{3.7537083521574984`*^9, 3.7537083768619432`*^9}, 
+   3.753729621460019*^9, 3.7537305165439124`*^9, 3.753730622365105*^9, 
+   3.753732112412053*^9},ExpressionUUID->"4904622b-ef38-445d-9fb7-\
+47ae1fffa065"]
+}, Open  ]],
+
+Cell["Using the straightedge allows us to complete the angle.", "Text",
+ CellChangeTimes->{{3.753708391002234*^9, 
+  3.7537084042084227`*^9}},ExpressionUUID->"d5cbde17-a12a-4081-9fbd-\
+628f0a6ff437"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"angle2", " ", "=", " ", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"c", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+       " ", 
+       RowBox[{"Circle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "2", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "\[Pi]"}], "/", "4"}], ",", " ", 
+           RowBox[{"\[Pi]", "/", "3"}]}], "}"}]}], "]"}], ",", " ", "Red", 
+       ",", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", " ", "y"}], "}"}], "]"}], ",", " ", "Green", ",", 
+       " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"b", ",", " ", "a"}], "}"}], "]"}]}], "}"}], ",", " ", 
+     RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GraphicsGrid", "[", 
+  RowBox[{"{", 
+   RowBox[{"{", 
+    RowBox[{"angle1", ",", " ", "angle2"}], "}"}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7537084201015053`*^9, 
+  3.7537084323620787`*^9}},ExpressionUUID->"ca1ed2f7-5103-44e1-a3c5-\
+fce1fa99dcec"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {InsetBox[
+     GraphicsBox[{LineBox[{{4, 4}, {0, 0}}], LineBox[{{4, 0}, {0, 0}}], 
+       {RGBColor[0, 0, 1], 
+        CircleBox[{0, 0}, 2, 
+         NCache[{Rational[-1, 4] Pi, Rational[1, 3] Pi}, {-0.7853981633974483,
+           1.0471975511965976`}]], 
+        PointBox[
+         NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+           1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}, 
+       {RGBColor[1, 0, 0], 
+        LineBox[NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+           1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}},
+      ImageSize->Small], {70.92442800348083, -94.5}, 
+     ImageScaled[{0.5, 0.5}], {132.98330250652654, 180}], InsetBox[
+     GraphicsBox[{LineBox[{{4, 0}, {0, 0}}], 
+       {RGBColor[0, 0, 1], 
+        CircleBox[{0, 0}, 2, 
+         NCache[{Rational[-1, 4] Pi, Rational[1, 3] Pi}, {-0.7853981633974483,
+           1.0471975511965976`}]]}, 
+       {RGBColor[1, 0, 0], 
+        LineBox[NCache[{{2^Rational[1, 2], 2^Rational[1, 2]}, {2, 0}}, {{
+           1.4142135623730951`, 1.4142135623730951`}, {2, 0}}]]}, 
+       {RGBColor[0, 1, 0], LineBox[{{0, 0}, {4, 4}}]}},
+      ImageSize->Small], {212.77328401044247, -94.5}, 
+     ImageScaled[{0.5, 0.5}], {132.98330250652654, 180}]}, {}},
+  ContentSelectable->True,
+  ImageSize->{295.6977120139233, 201.},
+  PlotRangePadding->{6, 5}]], "Output",
+ CellChangeTimes->{3.753708433535735*^9, 3.7537296214849176`*^9, 
+  3.753730516569811*^9, 3.7537306223910017`*^9, 
+  3.7537321124359903`*^9},ExpressionUUID->"745c9550-8ab6-4b0a-b411-\
+f2aa68675e6a"]
+}, Open  ]],
+
+Cell["\<\
+On the right, the angle formed by the black and green lines is equivalent to \
+the angle on the left.\
+\>", "Text",
+ CellChangeTimes->{{3.753708444106739*^9, 3.753708466604065*^9}, {
+  3.753729253288951*^9, 
+  3.753729254470072*^9}},ExpressionUUID->"2f6d01f7-561e-4909-9ee2-\
+67b1f8575b7b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Constructing an Equilateral Triangle", "Section",
+ CellChangeTimes->{{3.753668484807905*^9, 
+  3.753668497436691*^9}},ExpressionUUID->"d5407800-9b92-4c05-a4c3-\
+5d1129c1b499"],
+
+Cell["\<\
+Euclid begins his proofs in Book IV with the inscription of any triangle \
+inside a circle. In particular, this proposition can be used to inscribe an \
+equilateral triangle inside a circle. To do this, we only need a 60\[Degree] \
+angle, along with our straightedge and compass. The process is as follows:
+\t1) Draw a circle, and a line that touches the circle at exactly one point. \
+These are the black lines.
+\t2) Copy the 60\[Degree] angle such that the vertex is at the intersection \
+point of the line and circle. Do this from each endpoint on the line. These \
+are the blue lines.
+\t3) Extend the blue lines until they intersect the circle. Connect these new \
+intersections of the circle and the blue lines. This is the red line.
+\t
+This is now an equiangular triangle inscribed in a circle, exactly as we \
+wanted. In general, if you wanted to inscribe a non-regular triangle, you \
+would need a copy of the triangle you\[CloseCurlyQuote]re trying to inscribe. \
+Then, instead of copying the same angle twice, you instead would copy two \
+different angles from the triangle.\
+\>", "Text",
+ CellChangeTimes->{{3.7537099964444275`*^9, 3.753710399196125*^9}, {
+  3.7537104357301006`*^9, 
+  3.753710556204593*^9}},ExpressionUUID->"91b3246b-7cc0-437a-8159-\
+583154853e22"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"g", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "5"}], ",", " ", 
+     RowBox[{"-", "4"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"h", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", " ", 
+     RowBox[{"-", "4"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", 
+     RowBox[{"-", "4"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"2", 
+      RowBox[{"\[Pi]", "/", "3"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"-", "2"}], 
+      RowBox[{"\[Pi]", "/", "3"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Circle", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", " ", "h"}], "}"}], "]"}], ",", " ", "Blue", ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Red", ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b", ",", " ", "c"}], "}"}], "]"}]}], "}"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "5"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7536685562070527`*^9, 3.7536685577813883`*^9}, {
+  3.753669997161598*^9, 3.7536701150238075`*^9}, {3.7536701503926196`*^9, 
+  3.753670388300191*^9}, {3.7536704813872147`*^9, 3.7536706438819*^9}, {
+  3.753670710437024*^9, 3.7536707624494762`*^9}, {3.7536707931656137`*^9, 
+  3.753670882695261*^9}, {3.753709875078455*^9, 
+  3.7537098980489635`*^9}},ExpressionUUID->"09679ff8-bf7d-40e0-92ea-\
+b32e98f5e44a"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}, 4], LineBox[{{-5, -4}, {5, -4}}], 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, -4}, {(-2) 3^Rational[1, 2], 2}}, {{
+       0, -4}, {-3.4641016151377544`, 2}}]], 
+    LineBox[NCache[{{0, -4}, {2 3^Rational[1, 2], 2}}, {{0, -4}, {
+       3.4641016151377544`, 2}}]]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{2 3^Rational[1, 2], 2}, {(-2) 3^Rational[1, 2], 2}}, {{
+       3.4641016151377544`, 2}, {-3.4641016151377544`, 2}}]]}},
+  PlotRange->5]], "Output",
+ CellChangeTimes->{{3.753670061455699*^9, 3.7536701154238195`*^9}, {
+   3.7536701527138205`*^9, 3.753670163004137*^9}, {3.7536702197087355`*^9, 
+   3.7536702944849606`*^9}, {3.753670327026005*^9, 3.753670388776718*^9}, {
+   3.7536704892333293`*^9, 3.7536705473264403`*^9}, {3.753670599955145*^9, 
+   3.753670644639083*^9}, 3.7536707631363587`*^9, {3.753670793925125*^9, 
+   3.753670883248202*^9}, {3.7537098763532295`*^9, 3.753709898957755*^9}, 
+   3.753729621508852*^9, 3.7537305165964675`*^9, 3.753730622413938*^9, 
+   3.7537321124708953`*^9},ExpressionUUID->"ba9ef058-e40e-4c9c-90f9-\
+d175ca5671ed"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Bisecting Line Segments", "Section",
+ CellChangeTimes->{{3.7537108280261383`*^9, 3.753710831105769*^9}, {
+  3.7537110247296143`*^9, 
+  3.7537110265712504`*^9}},ExpressionUUID->"5712ce34-627c-4895-8d42-\
+e13463e81e9b"],
+
+Cell["\<\
+It is worth noting that the term \[OpenCurlyDoubleQuote]straightedge\
+\[CloseCurlyDoubleQuote] does not imply that is marked; that is, the \
+straightedge is NOT a ruler and cannot measure distances (again, having this \
+ability would somewhat trivialize the problem). In the subsequent proofs, we \
+need the ability to bisect line segments. While the task of finding the \
+midpoint of a line would be made easier with a marked straightedge, it is \
+possible, and quite simple, to do with just a compass and non-marked \
+straightedge.\
+\>", "Text",
+ CellChangeTimes->{{3.7537108457942133`*^9, 3.753711032953413*^9}, {
+  3.7537111353609285`*^9, 
+  3.7537111381410856`*^9}},ExpressionUUID->"ddc94441-4c88-4682-ad1a-\
+5cbd52a156e9"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "2"}], ",", " ", 
+     RowBox[{"-", "2"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", " ", "2"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"Line", "[", 
+    RowBox[{"{", 
+     RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "3"}], ",", " ", 
+   RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.753711050268933*^9, 
+  3.7537110862198453`*^9}},ExpressionUUID->"2653dc84-6d9b-42ff-9c7b-\
+db93a4c58603"],
+
+Cell[BoxData[
+ GraphicsBox[LineBox[{{-2, -2}, {2, 2}}],
+  ImageSize->Small,
+  PlotRange->3]], "Output",
+ CellChangeTimes->{{3.7537110684937983`*^9, 3.7537110873085947`*^9}, 
+   3.753729621533785*^9, 3.7537305166164184`*^9, 3.753730622434888*^9, 
+   3.7537321124918394`*^9},ExpressionUUID->"f3613875-e6ed-44a0-ae64-\
+34d70efc65fc"]
+}, Open  ]],
+
+Cell["\<\
+Say we want to draw a line that bisects this line segment. We begin by \
+drawing arcs from both endpoints.\
+\>", "Text",
+ CellChangeTimes->{{3.7537111046243315`*^9, 
+  3.753711147041375*^9}},ExpressionUUID->"6b60badd-1d9f-4c83-8cb5-\
+29b68b130727"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+     RowBox[{"Circle", "[", 
+      RowBox[{"a", ",", " ", "4", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "\[Pi]"}], "/", "3"}], ",", " ", 
+         RowBox[{"2", 
+          RowBox[{"\[Pi]", "/", "3"}]}]}], "}"}]}], "]"}], ",", " ", 
+     RowBox[{"Circle", "[", 
+      RowBox[{"b", ",", " ", "4", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "\[Pi]"}], "/", "2"}], ",", " ", 
+         RowBox[{"3", 
+          RowBox[{"\[Pi]", "/", "2"}]}]}], "}"}]}], "]"}]}], "}"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "4"}], ",", " ", 
+   RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.753711162249164*^9, 
+  3.753711289251979*^9}},ExpressionUUID->"0ff4e19f-f299-474c-a3aa-\
+e66772df165d"],
+
+Cell[BoxData[
+ GraphicsBox[{LineBox[{{-2, -2}, {2, 2}}], 
+   {RGBColor[0, 0, 1], 
+    CircleBox[{-2, -2}, 4, 
+     NCache[{Rational[-1, 3] Pi, Rational[2, 3] Pi}, {-1.0471975511965976`, 
+      2.0943951023931953`}]], 
+    CircleBox[{2, 2}, 4, 
+     NCache[{Rational[-1, 2] Pi, Rational[3, 2] Pi}, {-1.5707963267948966`, 
+      4.71238898038469}]]}},
+  ImageSize->Small,
+  PlotRange->4]], "Output",
+ CellChangeTimes->{{3.7537111961269646`*^9, 3.753711290032389*^9}, 
+   3.7537296215564938`*^9, 3.75373051664038*^9, 3.753730622460843*^9, 
+   3.7537321125177703`*^9},ExpressionUUID->"c07319ea-05ae-49fe-b0f1-\
+cddf320520eb"]
+}, Open  ]],
+
+Cell["\<\
+Then, if we connect the intersections of these two arcs, we will have created \
+a perpendicular bisector of the original line.\
+\>", "Text",
+ CellChangeTimes->{{3.7537114565926905`*^9, 
+  3.7537115170424166`*^9}},ExpressionUUID->"1c6b74cf-27ff-4786-87aa-\
+70326e5fa0d8"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+     RowBox[{"Circle", "[", 
+      RowBox[{"a", ",", " ", "4", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "\[Pi]"}], "/", "3"}], ",", " ", 
+         RowBox[{"2", 
+          RowBox[{"\[Pi]", "/", "3"}]}]}], "}"}]}], "]"}], ",", " ", 
+     RowBox[{"Circle", "[", 
+      RowBox[{"b", ",", " ", "4", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "\[Pi]"}], "/", "2"}], ",", " ", 
+         RowBox[{"3", 
+          RowBox[{"\[Pi]", "/", "2"}]}]}], "}"}]}], "]"}], ",", " ", "Red", 
+     ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"2", ",", " ", 
+          RowBox[{"-", "2"}]}], "}"}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "2"}], ",", " ", "2"}], "}"}]}], "}"}], "]"}]}], "}"}],
+    ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "4"}], ",", " ", 
+   RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.7537115290630927`*^9, 3.7537115817612753`*^9}, 
+   3.7537116137803335`*^9},ExpressionUUID->"cfce34d8-8198-4b01-9a0a-\
+25f13962f093"],
+
+Cell[BoxData[
+ GraphicsBox[{LineBox[{{-2, -2}, {2, 2}}], 
+   {RGBColor[0, 0, 1], 
+    CircleBox[{-2, -2}, 4, 
+     NCache[{Rational[-1, 3] Pi, Rational[2, 3] Pi}, {-1.0471975511965976`, 
+      2.0943951023931953`}]], 
+    CircleBox[{2, 2}, 4, 
+     NCache[{Rational[-1, 2] Pi, Rational[3, 2] Pi}, {-1.5707963267948966`, 
+      4.71238898038469}]]}, 
+   {RGBColor[1, 0, 0], LineBox[{{2, -2}, {-2, 2}}]}},
+  ImageSize->Small,
+  PlotRange->4]], "Output",
+ CellChangeTimes->{{3.7537115517854223`*^9, 3.753711568286476*^9}, 
+   3.7537116141573257`*^9, 3.7537296215803986`*^9, 3.7537305166612997`*^9, 
+   3.7537306224817824`*^9, 
+   3.7537321125437007`*^9},ExpressionUUID->"24cd3521-3610-4042-aab4-\
+85c73183251b"]
+}, Open  ]],
+
+Cell["\<\
+The red line is the requested bisection of the original line.\
+\>", "Text",
+ CellChangeTimes->{{3.753711618982049*^9, 
+  3.753711633531215*^9}},ExpressionUUID->"185c40f0-fe30-4d0f-aeaa-\
+13966fe2b580"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Constructing a Regular Pentagon", "Section",
+ CellChangeTimes->{{3.7536636038955574`*^9, 
+  3.7536636322489905`*^9}},ExpressionUUID->"91cf2a9d-a1a3-4e8f-90fa-\
+9bb457041505"],
+
+Cell["\<\
+Now that we are able to inscribe triangles in a circle and bisect lines, we \
+can construct a regular pentagon. We begin by inscribing an isosceles \
+triangle into a circle. As noted above, this is possible if we are given a \
+copy of the triangle to begin with.\
+\>", "Text",
+ CellChangeTimes->{{3.7537117431371036`*^9, 3.753711846977878*^9}, {
+  3.753729518636674*^9, 
+  3.75372951890973*^9}},ExpressionUUID->"95c3d0d2-cd51-419d-9e54-\
+323504c13f2a"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", "4"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"d", " ", "=", " ", 
+   RowBox[{"-", 
+    RowBox[{"a", ".", 
+     RowBox[{"RotationMatrix", "[", 
+      RowBox[{
+       RowBox[{"-", "38"}], "*", "Degree"}], "]"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", " ", "=", " ", 
+   RowBox[{"-", 
+    RowBox[{"a", ".", 
+     RowBox[{"RotationMatrix", "[", 
+      RowBox[{"38", " ", "*", "Degree"}], "]"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{"Black", ",", " ", 
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", 
+    "Blue", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "d"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "d"}], "}"}], "]"}]}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.753398217888981*^9, 3.753398292461401*^9}, {
+  3.7533984882222223`*^9, 3.7533984911441083`*^9}, {3.7534003636405134`*^9, 
+  3.753400404670761*^9}, {3.7534015657700663`*^9, 3.7534015974969835`*^9}, {
+  3.7534016359855447`*^9, 3.753401637931845*^9}, {3.7534016696515036`*^9, 
+  3.753401763338881*^9}, {3.7534017977666483`*^9, 3.753401817089798*^9}, {
+  3.753402012515529*^9, 3.753402014130534*^9}, {3.753712196803261*^9, 
+  3.753712234242241*^9}, {3.7537123250496225`*^9, 3.753712369603232*^9}, {
+  3.753714091123171*^9, 3.7537141389161882`*^9}, {3.753714364014141*^9, 
+  3.7537144027032423`*^9}, {3.7537145176621485`*^9, 3.753714601306182*^9}, {
+  3.7537146374509983`*^9, 
+  3.7537146444014416`*^9}},ExpressionUUID->"b19d72cd-dc72-45e6-8832-\
+1cf1cd91e124"],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {GrayLevel[0], CircleBox[{0, 0}, 4]}, 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, 4}, {(-4) Sin[38 Degree], (-4) Cos[38 Degree]}}, {{0, 
+       4}, {-2.462645901302633, -3.1520430144268876`}}]], 
+    LineBox[NCache[{{0, 4}, {4 Sin[38 Degree], (-4) Cos[38 Degree]}}, {{0, 
+       4}, {2.462645901302633, -3.1520430144268876`}}]], 
+    LineBox[NCache[{{(-4) Sin[38 Degree], (-4) Cos[38 Degree]}, {
+       4 Sin[38 Degree], (-4) 
+        Cos[38 Degree]}}, {{-2.462645901302633, -3.1520430144268876`}, {
+      2.462645901302633, -3.1520430144268876`}}]]}}]], "Output",
+ CellChangeTimes->{{3.753398285821945*^9, 3.7533982929276667`*^9}, 
+   3.7533984997482386`*^9, 3.753400405208866*^9, 3.753401598212214*^9, 
+   3.753401647663384*^9, {3.7534016995706778`*^9, 3.7534017639127064`*^9}, {
+   3.7534018010814123`*^9, 3.753401817512879*^9}, 3.7534020146121144`*^9, 
+   3.7535723028280544`*^9, 3.7536556507074785`*^9, 3.753657405523493*^9, 
+   3.7536574481820464`*^9, 3.753657548169274*^9, 3.753712375614513*^9, {
+   3.7537143843139744`*^9, 3.7537144032385387`*^9}, 3.7537145261199784`*^9, {
+   3.7537145568996587`*^9, 3.7537146018167195`*^9}, {3.7537146385770283`*^9, 
+   3.7537146447253475`*^9}, 3.7537296216043634`*^9, 3.753730516685197*^9, 
+   3.7537306225027323`*^9, 
+   3.753732112570629*^9},ExpressionUUID->"a2417e47-cf7e-4f66-a991-\
+54a0807d3832"]
+}, Open  ]],
+
+Cell["\<\
+Now,  we can bisect the two equal sides of the isosceles triangle, thus \
+finding the midpoint. Then, we connect the midpoint to the vertex opposite of \
+the side of the triangle and extend it to intersect the circle.\
+\>", "Text",
+ CellChangeTimes->{{3.753711873377265*^9, 
+  3.753711955565007*^9}},ExpressionUUID->"e4fcb734-12fb-464d-a8a0-\
+51e91739c8d9"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"e", " ", "=", " ", 
+   RowBox[{"(", 
+    RowBox[{"a", " ", "+", " ", "d"}], ")"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"e", " ", "=", " ", 
+   RowBox[{"4", " ", "*", " ", 
+    RowBox[{"(", 
+     RowBox[{"e", " ", "/", " ", 
+      RowBox[{"Norm", "[", "e", "]"}]}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"(", 
+    RowBox[{"a", " ", "+", " ", "c"}], ")"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"4", " ", "*", " ", 
+    RowBox[{"(", 
+     RowBox[{"b", " ", "/", " ", 
+      RowBox[{"Norm", "[", "b", "]"}]}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{"Black", ",", " ", 
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", 
+    "Blue", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "d"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "d"}], "}"}], "]"}], ",", " ", "Red", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "e"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"b", ",", " ", "d"}], "}"}], "]"}]}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.753401947815915*^9, 3.7534019989370484`*^9}, {
+  3.753402342389827*^9, 
+  3.753402613373345*^9}},ExpressionUUID->"49c6fce1-a7c7-4d63-9bcb-\
+5f1c81fd2f9c"],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {GrayLevel[0], CircleBox[{0, 0}, 4]}, 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, 4}, {(-4) Sin[38 Degree], (-4) Cos[38 Degree]}}, {{0, 
+       4}, {-2.462645901302633, -3.1520430144268876`}}]], 
+    LineBox[NCache[{{0, 4}, {4 Sin[38 Degree], (-4) Cos[38 Degree]}}, {{0, 
+       4}, {2.462645901302633, -3.1520430144268876`}}]], 
+    LineBox[NCache[{{(-4) Sin[38 Degree], (-4) Cos[38 Degree]}, {
+       4 Sin[38 Degree], (-4) 
+        Cos[38 Degree]}}, {{-2.462645901302633, -3.1520430144268876`}, {
+      2.462645901302633, -3.1520430144268876`}}]]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{(-4) Sin[38 Degree], (-4) Cos[38 Degree]}, {
+       16 Sin[38 Degree] ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2], 
+        4 (4 - 4 
+         Cos[38 Degree]) ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2]}}, {{-2.462645901302633, -3.1520430144268876`}, {
+      3.7820743023972674`, 1.302272617828627}}]], 
+    LineBox[NCache[{{(-16) 
+        Sin[38 Degree] ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2], 
+        4 (4 - 4 
+         Cos[38 Degree]) ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2]}, {
+       4 Sin[38 Degree], (-4) Cos[38 Degree]}}, {{-3.7820743023972674`, 
+      1.302272617828627}, {
+      2.462645901302633, -3.1520430144268876`}}]]}}]], "Output",
+ CellChangeTimes->{{3.7534020000957017`*^9, 3.7534020169562078`*^9}, 
+   3.7534023915483575`*^9, {3.753402431608266*^9, 3.7534025086708465`*^9}, {
+   3.753402576985335*^9, 3.7534026140310335`*^9}, 3.7535723029634466`*^9, 
+   3.7536556529593763`*^9, 3.753657405642173*^9, 3.753657448294745*^9, 
+   3.7536575482759905`*^9, 3.7537144084910994`*^9, {3.753714566814853*^9, 
+   3.753714604107811*^9}, 3.753714647484211*^9, 3.753729621628302*^9, 
+   3.7537305167091694`*^9, 3.7537306225266733`*^9, 
+   3.753732112595562*^9},ExpressionUUID->"0124d171-464a-4f60-ac31-\
+81c6a4aab67f"]
+}, Open  ]],
+
+Cell["\<\
+Finally, connecting all of the points on the circle yields a regular pentagon.\
+\>", "Text",
+ CellChangeTimes->{{3.7537149456418133`*^9, 
+  3.7537149686858044`*^9}},ExpressionUUID->"bfe31492-fe9d-40a1-b7f3-\
+36687a8d2488"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{"Black", ",", " ", 
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", " ", 
+    "Green", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"b", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"d", ",", " ", "e"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"e", ",", " ", "a"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "d"}], "}"}], "]"}]}], "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.753402041749287*^9, 3.753402088991763*^9}, {
+  3.7534021761769724`*^9, 3.7534022067032824`*^9}, {3.753712132193549*^9, 
+  3.753712143410467*^9}},ExpressionUUID->"697b0bbc-e812-4033-bbaa-\
+d17912e85273"],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {GrayLevel[0], CircleBox[{0, 0}, 4]}, 
+   {RGBColor[0, 1, 0], 
+    LineBox[NCache[{{0, 
+       4}, {(-16) 
+        Sin[38 Degree] ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2], 
+        4 (4 - 4 
+         Cos[38 Degree]) ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2]}}, {{0, 4}, {-3.7820743023972674`, 
+       1.302272617828627}}]], 
+    LineBox[NCache[{{(-16) 
+        Sin[38 Degree] ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2], 
+        4 (4 - 4 
+         Cos[38 Degree]) ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2]}, {(-4) Sin[38 Degree], (-4) 
+        Cos[38 Degree]}}, {{-3.7820743023972674`, 
+      1.302272617828627}, {-2.462645901302633, -3.1520430144268876`}}]], 
+    LineBox[NCache[{{4 Sin[38 Degree], (-4) Cos[38 Degree]}, {
+       16 Sin[38 Degree] ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2], 
+        4 (4 - 4 
+         Cos[38 Degree]) ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2]}}, {{2.462645901302633, -3.1520430144268876`}, {
+      3.7820743023972674`, 1.302272617828627}}]], 
+    LineBox[NCache[{{
+       16 Sin[38 Degree] ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2], 
+        4 (4 - 4 
+         Cos[38 Degree]) ((4 - 4 Cos[38 Degree])^2 + 16 Sin[38 Degree]^2)^
+         Rational[-1, 2]}, {0, 4}}, {{3.7820743023972674`, 
+       1.302272617828627}, {0, 4}}]], 
+    LineBox[NCache[{{(-4) Sin[38 Degree], (-4) Cos[38 Degree]}, {
+       4 Sin[38 Degree], (-4) 
+        Cos[38 Degree]}}, {{-2.462645901302633, -3.1520430144268876`}, {
+      2.462645901302633, -3.1520430144268876`}}]]}}]], "Output",
+ CellChangeTimes->{
+  3.7534020903815064`*^9, {3.7534021812604628`*^9, 3.753402207153647*^9}, 
+   3.753402472470829*^9, 3.7534026170542173`*^9, 3.753572302982294*^9, 
+   3.7536556530142508`*^9, 3.7536574056641083`*^9, 3.753657448313692*^9, 
+   3.7536575482969356`*^9, 3.753714412623863*^9, {3.7537145701906447`*^9, 
+   3.753714606702562*^9}, 3.7537146502351427`*^9, 3.7537296216542015`*^9, 
+   3.753730516732108*^9, 3.75373062255061*^9, 
+   3.753732113306861*^9},ExpressionUUID->"7f54e386-8e1c-4d8a-aafb-\
+4c2cf32d19b9"]
+}, Open  ]],
+
+Cell["\<\
+Up until now, we have not taken into consideration the orientation of the \
+shapes we draw or the size of the circle. Perhaps unsurprisingly, these \
+things do not matter, but here\[CloseCurlyQuote]s proof if you\
+\[CloseCurlyQuote]re not convinced. You can stretch and rotate the plot as \
+much as you want and the pentagon will still be regular. Perhaps the most \
+revealing insight is if you move the locator to each vertex of the pentagon. \
+While the triangle itself changes, the pentagon does not.\
+\>", "Text",
+ CellChangeTimes->{{3.7537149726333094`*^9, 3.7537150826109953`*^9}, {
+  3.753715189493037*^9, 
+  3.75371522499976*^9}},ExpressionUUID->"75f37144-829c-4a48-bf4a-\
+de95c2595cc3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Black", ",", " ", 
+       RowBox[{"Circle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", 
+         RowBox[{"Norm", "[", "p", "]"}]}], "]"}], ",", " ", "Green", ",", 
+       " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"p", ",", " ", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Norm", "[", "p", "]"}], " ", "/", " ", 
+             RowBox[{"Norm", "[", 
+              RowBox[{"p", " ", "+", " ", 
+               RowBox[{
+                RowBox[{"RotationMatrix", "[", 
+                 RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+                RowBox[{"(", 
+                 RowBox[{"-", "p"}], ")"}]}]}], "]"}]}], ")"}], "*", 
+           RowBox[{"(", 
+            RowBox[{"p", " ", "+", " ", 
+             RowBox[{
+              RowBox[{"RotationMatrix", "[", 
+               RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+              RowBox[{"(", 
+               RowBox[{"-", "p"}], ")"}]}]}], ")"}]}]}], "}"}], "]"}], ",", 
+       " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Norm", "[", "p", "]"}], " ", "/", " ", 
+             RowBox[{"Norm", "[", 
+              RowBox[{"p", " ", "+", " ", 
+               RowBox[{
+                RowBox[{"RotationMatrix", "[", 
+                 RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+                RowBox[{"(", 
+                 RowBox[{"-", "p"}], ")"}]}]}], "]"}]}], ")"}], "*", 
+           RowBox[{"(", 
+            RowBox[{"p", " ", "+", " ", 
+             RowBox[{
+              RowBox[{"RotationMatrix", "[", 
+               RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+              RowBox[{"(", 
+               RowBox[{"-", "p"}], ")"}]}]}], ")"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}]}], "}"}], "]"}], ",", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{
+             RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Norm", "[", "p", "]"}], " ", "/", " ", 
+             RowBox[{"Norm", "[", 
+              RowBox[{"p", " ", "+", " ", 
+               RowBox[{
+                RowBox[{"RotationMatrix", "[", 
+                 RowBox[{
+                  RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+                RowBox[{"(", 
+                 RowBox[{"-", "p"}], ")"}]}]}], "]"}]}], ")"}], "*", 
+           RowBox[{"(", 
+            RowBox[{"p", " ", "+", " ", 
+             RowBox[{
+              RowBox[{"RotationMatrix", "[", 
+               RowBox[{
+                RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+              RowBox[{"(", 
+               RowBox[{"-", "p"}], ")"}]}]}], ")"}]}]}], "}"}], "]"}], ",", 
+       " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Norm", "[", "p", "]"}], " ", "/", " ", 
+             RowBox[{"Norm", "[", 
+              RowBox[{"p", " ", "+", " ", 
+               RowBox[{
+                RowBox[{"RotationMatrix", "[", 
+                 RowBox[{
+                  RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+                RowBox[{"(", 
+                 RowBox[{"-", "p"}], ")"}]}]}], "]"}]}], ")"}], "*", 
+           RowBox[{"(", 
+            RowBox[{"p", " ", "+", " ", 
+             RowBox[{
+              RowBox[{"RotationMatrix", "[", 
+               RowBox[{
+                RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+              RowBox[{"(", 
+               RowBox[{"-", "p"}], ")"}]}]}], ")"}]}], ",", " ", "p"}], "}"}],
+         "]"}], ",", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{
+             RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}]}], "}"}], "]"}], ",", "Blue", ",", 
+       " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"p", ",", " ", 
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}]}], "}"}], "]"}], ",", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{
+             RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}]}], "}"}], "]"}], ",", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{"p", ",", " ", 
+          RowBox[{
+           RowBox[{"RotationMatrix", "[", 
+            RowBox[{
+             RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+           RowBox[{"(", 
+            RowBox[{"-", "p"}], ")"}]}]}], "}"}], "]"}]}], "}"}], ",", " ", 
+     RowBox[{"PlotRange", "\[Rule]", " ", "5"}]}], "]"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"p", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "4"}], "}"}]}], "}"}], ",", " ", "Locator"}], 
+    "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.7534100861200542`*^9, 3.753410086603157*^9}, {
+   3.7534102219469986`*^9, 3.7534102853471627`*^9}, {3.7534103532732573`*^9, 
+   3.7534104165617743`*^9}, {3.7534104526214247`*^9, 
+   3.7534104913967066`*^9}, {3.753410671064506*^9, 3.7534108068175898`*^9}, {
+   3.7534108515750837`*^9, 3.7534109183871946`*^9}, {3.753410967718794*^9, 
+   3.753411017457114*^9}, 3.753411053106531*^9, {3.753411089668173*^9, 
+   3.753411120203384*^9}, {3.7534123091873913`*^9, 3.753412353643875*^9}, {
+   3.7534124949860015`*^9, 3.7534125443147173`*^9}, {3.753572828488209*^9, 
+   3.7535728332606735`*^9}, {3.7535729044415817`*^9, 
+   3.7535729576236277`*^9}, {3.75357299879451*^9, 3.7535730115461955`*^9}, {
+   3.7535730688306475`*^9, 3.7535731035180745`*^9}, {3.7535731731567345`*^9, 
+   3.753573202607989*^9}, {3.753573511985876*^9, 3.753573514069231*^9}, 
+   3.7535735867158537`*^9, 3.753573629998579*^9, {3.7535737160451913`*^9, 
+   3.753573716620621*^9}, {3.753575076832698*^9, 3.753575077866987*^9}, {
+   3.753575350823665*^9, 3.7535753526758137`*^9}, {3.7535754187999887`*^9, 
+   3.7535754606526136`*^9}},ExpressionUUID->"330fe5e6-9103-4f3b-a5f0-\
+5d8bc4abd44a"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`p$$ = {1.96, 3.5999999999999996`}, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`p$$], {0, 4}}, Automatic}}, Typeset`size$$ = {
+    324., {159., 165.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`p$$ = {0, 4}}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Graphics[{Black, 
+         Circle[{0, 0}, 
+          Norm[$CellContext`p$$]], Green, 
+         Line[{$CellContext`p$$, (Norm[$CellContext`p$$]/
+            Norm[$CellContext`p$$ + Dot[
+               RotationMatrix[Pi/5], -$CellContext`p$$]]) ($CellContext`p$$ + 
+            Dot[
+              RotationMatrix[Pi/5], -$CellContext`p$$])}], 
+         Line[{(Norm[$CellContext`p$$]/Norm[$CellContext`p$$ + Dot[
+               RotationMatrix[Pi/5], -$CellContext`p$$]]) ($CellContext`p$$ + 
+            Dot[
+              RotationMatrix[Pi/5], -$CellContext`p$$]), 
+           Dot[
+            RotationMatrix[Pi/5], -$CellContext`p$$]}], 
+         Line[{
+           Dot[
+            RotationMatrix[(-Pi)/5], -$CellContext`p$$], (
+            Norm[$CellContext`p$$]/Norm[$CellContext`p$$ + Dot[
+               
+               RotationMatrix[(-Pi)/
+                5], -$CellContext`p$$]]) ($CellContext`p$$ + Dot[
+              RotationMatrix[(-Pi)/5], -$CellContext`p$$])}], 
+         Line[{(Norm[$CellContext`p$$]/Norm[$CellContext`p$$ + Dot[
+               
+               RotationMatrix[(-Pi)/
+                5], -$CellContext`p$$]]) ($CellContext`p$$ + Dot[
+              RotationMatrix[(-Pi)/
+               5], -$CellContext`p$$]), $CellContext`p$$}], 
+         Line[{
+           Dot[
+            RotationMatrix[Pi/5], -$CellContext`p$$], 
+           Dot[
+            RotationMatrix[(-Pi)/5], -$CellContext`p$$]}], Blue, 
+         Line[{$CellContext`p$$, 
+           Dot[
+            RotationMatrix[Pi/5], -$CellContext`p$$]}], 
+         Line[{
+           Dot[
+            RotationMatrix[Pi/5], -$CellContext`p$$], 
+           Dot[
+            RotationMatrix[(-Pi)/5], -$CellContext`p$$]}], 
+         Line[{$CellContext`p$$, 
+           Dot[
+            RotationMatrix[(-Pi)/5], -$CellContext`p$$]}]}, PlotRange -> 5], 
+      "Specifications" :> {{{$CellContext`p$$, {0, 4}}, Automatic, 
+         ControlType -> Locator}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{377., {191., 197.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.753410288746214*^9, {3.7534103704606156`*^9, 3.753410420016409*^9}, 
+   3.753410492047917*^9, 3.7534106312208753`*^9, 3.753410872838068*^9, 
+   3.753410918880172*^9, 3.75341097631938*^9, 3.7534110542701426`*^9, 
+   3.7534110931942277`*^9, {3.7534123546730175`*^9, 3.753412408468586*^9}, {
+   3.753412472432065*^9, 3.7534124849514384`*^9}, {3.7534125336596837`*^9, 
+   3.753412549325807*^9}, {3.7535720883231926`*^9, 3.753572099939035*^9}, 
+   3.753572304078949*^9, 3.7535729588744974`*^9, {3.753573002522441*^9, 
+   3.753573012590769*^9}, {3.7535730709014473`*^9, 3.753573104431812*^9}, 
+   3.753573151309271*^9, {3.7535731930914783`*^9, 3.7535732040911*^9}, 
+   3.7535735153425574`*^9, 3.753573632092839*^9, 3.753573717475671*^9, {
+   3.7535753456270914`*^9, 3.753575353258997*^9}, 3.7535754616352615`*^9, 
+   3.75365565316086*^9, 3.753657405716943*^9, 3.753657448365556*^9, 
+   3.753657548341817*^9, 3.7536640408145714`*^9, 3.7537296216831446`*^9, 
+   3.753730516800889*^9, 3.753730622614401*^9, 
+   3.75373211345842*^9},ExpressionUUID->"d83fb2f2-dc89-4ed6-ab53-\
+3aa15329282f"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"d", " ", "=", 
+   RowBox[{
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+    RowBox[{"(", 
+     RowBox[{"-", "p"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", " ", "=", 
+   RowBox[{
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+    RowBox[{"(", 
+     RowBox[{"-", "p"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"e", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Norm", "[", "p", "]"}], " ", "/", " ", 
+      RowBox[{"Norm", "[", 
+       RowBox[{"p", " ", "+", " ", 
+        RowBox[{
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{
+           RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+         RowBox[{"(", 
+          RowBox[{"-", "p"}], ")"}]}]}], "]"}]}], ")"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"p", "+", " ", 
+      RowBox[{
+       RowBox[{"RotationMatrix", "[", 
+        RowBox[{
+         RowBox[{"-", "\[Pi]"}], "/", "5"}], "]"}], ".", 
+       RowBox[{"(", 
+        RowBox[{"-", "p"}], ")"}]}]}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Norm", "[", "p", "]"}], " ", "/", " ", 
+      RowBox[{"Norm", "[", 
+       RowBox[{"p", " ", "+", " ", 
+        RowBox[{
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+         RowBox[{"(", 
+          RowBox[{"-", "p"}], ")"}]}]}], "]"}]}], ")"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"p", "+", " ", 
+      RowBox[{
+       RowBox[{"RotationMatrix", "[", 
+        RowBox[{"\[Pi]", "/", "5"}], "]"}], ".", 
+       RowBox[{"(", 
+        RowBox[{"-", "p"}], ")"}]}]}], ")"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.753412719781909*^9, 3.753412765081484*^9}, {
+  3.7535725535557585`*^9, 3.7535728930296206`*^9}, {3.753573269008507*^9, 
+  3.7535732695064983`*^9}, {3.7535734340658665`*^9, 
+  3.753573475154622*^9}},ExpressionUUID->"ccf9bce7-2e98-45e4-987a-\
+e94d7abfdf72"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Constructing a Regular Hexagon", "Section",
+ CellChangeTimes->{{3.753663671302776*^9, 
+  3.753663684568423*^9}},ExpressionUUID->"c56807dc-9bce-4e95-a81a-\
+1b22752d78a6"],
+
+Cell["\<\
+This proof is a bit different from the rest. We begin by drawing a diameter \
+on the circle. Then, we draw a new circle centered at one endpoint of this \
+diameter and that has a radius the same as the original circle.\
+\>", "Text",
+ CellChangeTimes->{{3.7537153455225506`*^9, 3.753715410605631*^9}, {
+  3.7537155333297606`*^9, 3.7537155949325514`*^9}, {3.7537157411871533`*^9, 
+  3.7537157467855043`*^9}},ExpressionUUID->"89097447-ca5f-49b6-bd64-\
+12edde8edf5a"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "4"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", 
+      RowBox[{"Norm", "[", "a", "]"}]}], "]"}], ",", " ", "Blue", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", 
+       RowBox[{"-", "a"}]}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"-", "a"}], ",", " ", 
+      RowBox[{"Norm", "[", "a", "]"}]}], "]"}]}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7537153351741667`*^9, 3.753715335461232*^9}, {
+  3.753715623204462*^9, 
+  3.7537156335947895`*^9}},ExpressionUUID->"601797c2-46b6-484b-ac66-\
+3e0e2c419f56"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}, 4], 
+   {RGBColor[0, 0, 1], LineBox[{{0, 4}, {0, -4}}], 
+    CircleBox[{0, -4}, 4]}}]], "Output",
+ CellChangeTimes->{
+  3.753715335892811*^9, {3.753715626100341*^9, 3.7537156341303654`*^9}, 
+   3.753729621836713*^9, 3.7537305169116526`*^9, 3.753730622732119*^9, 
+   3.753732113590068*^9},ExpressionUUID->"6e87197c-5dd3-4d72-82a5-\
+1107532f19d0"]
+}, Open  ]],
+
+Cell["\<\
+From here, we draw lines from the intersections of the two circles through \
+the center of the original, and we extend these lines so that they intersect \
+the original circle.\
+\>", "Text",
+ CellChangeTimes->{{3.753715753993328*^9, 
+  3.753715808716901*^9}},ExpressionUUID->"39fb49a9-c1f4-467d-a5b9-\
+931fdf5baeba"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", 
+      RowBox[{"Norm", "[", "a", "]"}]}], "]"}], ",", " ", "Blue", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", 
+       RowBox[{"-", "a"}]}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"-", "a"}], ",", " ", 
+      RowBox[{"Norm", "[", "a", "]"}]}], "]"}], ",", "Red", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"a", " ", ".", " ", 
+        RowBox[{"RotationMatrix", "[", 
+         RowBox[{
+          RowBox[{"-", "2"}], 
+          RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"a", " ", ".", " ", 
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{
+           RowBox[{"-", "2"}], 
+           RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"a", " ", ".", " ", 
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{"2", 
+           RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"a", " ", ".", " ", 
+        RowBox[{"RotationMatrix", "[", 
+         RowBox[{"2", 
+          RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.753715653809942*^9, 
+  3.753715715848439*^9}},ExpressionUUID->"4abd0986-a22b-4cfc-bbca-\
+d58463a0016f"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}, 4], 
+   {RGBColor[0, 0, 1], LineBox[{{0, 4}, {0, -4}}], CircleBox[{0, -4}, 4]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{(-2) 3^Rational[1, 2], -2}, {0, 
+       0}}, {{-3.4641016151377544`, -2}, {0, 0}}]], 
+    LineBox[NCache[{{2 3^Rational[1, 2], 2}, {0, 0}}, {{
+       3.4641016151377544`, 2}, {0, 0}}]], 
+    LineBox[NCache[{{(-2) 3^Rational[1, 2], 2}, {0, 
+       0}}, {{-3.4641016151377544`, 2}, {0, 0}}]], 
+    LineBox[NCache[{{2 3^Rational[1, 2], -2}, {0, 0}}, {{
+       3.4641016151377544`, -2}, {0, 0}}]]}}]], "Output",
+ CellChangeTimes->{{3.753715660845627*^9, 3.753715716376013*^9}, 
+   3.7537296218556943`*^9, 3.753730516932609*^9, 3.7537306227530766`*^9, 
+   3.753732113610015*^9},ExpressionUUID->"cca62504-5617-447b-bb43-\
+a47f11ef24c1"]
+}, Open  ]],
+
+Cell["\<\
+Connecting all 6 points that lie on the original circle yield a regular \
+hexagon.\
+\>", "Text",
+ CellChangeTimes->{{3.753715859576251*^9, 
+  3.753715880891566*^9}},ExpressionUUID->"37ff92e5-4342-468c-8dfa-\
+b42e8e14c6f8"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", 
+    "Green", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", 
+       RowBox[{"-", 
+        RowBox[{"a", " ", ".", " ", 
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{
+           RowBox[{"-", "2"}], 
+           RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}]}], "}"}], "]"}], ",",
+     " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"a", " ", ".", " ", 
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{
+           RowBox[{"-", "2"}], 
+           RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", 
+       RowBox[{"a", " ", ".", " ", 
+        RowBox[{"RotationMatrix", "[", 
+         RowBox[{"2", 
+          RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], "}"}], "]"}], ",", 
+    " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"a", " ", ".", " ", 
+        RowBox[{"RotationMatrix", "[", 
+         RowBox[{"2", 
+          RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", " ", 
+       RowBox[{"-", "a"}]}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "a"}], ",", " ", 
+       RowBox[{"a", " ", ".", " ", 
+        RowBox[{"RotationMatrix", "[", 
+         RowBox[{
+          RowBox[{"-", "2"}], 
+          RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], "}"}], "]"}], ",", 
+    " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"a", " ", ".", " ", 
+        RowBox[{"RotationMatrix", "[", 
+         RowBox[{
+          RowBox[{"-", "2"}], 
+          RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", " ", 
+       RowBox[{"-", 
+        RowBox[{"a", " ", ".", " ", 
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{"2", 
+           RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}]}], "}"}], "]"}], ",",
+     " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"a", " ", ".", " ", 
+         RowBox[{"RotationMatrix", "[", 
+          RowBox[{"2", 
+           RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", "a"}], 
+      "}"}], "]"}]}], "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.753715835304908*^9, 
+  3.7537158553786745`*^9}},ExpressionUUID->"39861365-7ff2-44f0-9cd4-\
+584f59bb190f"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}, 4], 
+   {RGBColor[0, 1, 0], 
+    LineBox[NCache[{{0, 4}, {2 3^Rational[1, 2], 2}}, {{0, 4}, {
+       3.4641016151377544`, 2}}]], 
+    LineBox[NCache[{{2 3^Rational[1, 2], 2}, {2 3^Rational[1, 2], -2}}, {{
+       3.4641016151377544`, 2}, {3.4641016151377544`, -2}}]], 
+    LineBox[NCache[{{2 3^Rational[1, 2], -2}, {0, -4}}, {{
+       3.4641016151377544`, -2}, {0, -4}}]], 
+    LineBox[NCache[{{0, -4}, {(-2) 3^Rational[1, 2], -2}}, {{
+       0, -4}, {-3.4641016151377544`, -2}}]], 
+    LineBox[NCache[{{(-2) 3^Rational[1, 2], -2}, {(-2) 3^Rational[1, 2], 
+        2}}, {{-3.4641016151377544`, -2}, {-3.4641016151377544`, 2}}]], 
+    LineBox[NCache[{{(-2) 3^Rational[1, 2], 2}, {0, 
+       4}}, {{-3.4641016151377544`, 2}, {0, 4}}]]}}]], "Output",
+ CellChangeTimes->{3.753715855843429*^9, 3.753729621874651*^9, 
+  3.753730516955542*^9, 3.7537306227750072`*^9, 
+  3.753732113631956*^9},ExpressionUUID->"b8e2aa4e-8931-4c59-a7cf-\
+3743de00de50"]
+}, Open  ]],
+
+Cell["\<\
+Once again, we can show that the orientation of the circle and the size of \
+the circle do not affect the hexagon. As before, while the intermediates may \
+change as you move the Locator, the hexagon itself will remain regular.\
+\>", "Text",
+ CellChangeTimes->{{3.7537159832627163`*^9, 
+  3.753716052539529*^9}},ExpressionUUID->"d0586c1e-0113-401d-8840-\
+761dfc7281d4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Manipulate", "[", 
+   RowBox[{
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Circle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", 
+          RowBox[{"Norm", "[", "a", "]"}]}], "]"}], ",", " ", "Blue", ",", 
+        " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{"a", ",", " ", 
+           RowBox[{"-", "a"}]}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Circle", "[", 
+         RowBox[{
+          RowBox[{"-", "a"}], ",", " ", 
+          RowBox[{"Norm", "[", "a", "]"}]}], "]"}], ",", " ", "Red", ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"a", " ", ".", " ", 
+            RowBox[{"RotationMatrix", "[", 
+             RowBox[{
+              RowBox[{"-", "2"}], 
+              RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            RowBox[{"a", " ", ".", " ", 
+             RowBox[{"RotationMatrix", "[", 
+              RowBox[{
+               RowBox[{"-", "2"}], 
+               RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"a", " ", ".", " ", 
+            RowBox[{"RotationMatrix", "[", 
+             RowBox[{"2", 
+              RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            RowBox[{"a", " ", ".", " ", 
+             RowBox[{"RotationMatrix", "[", 
+              RowBox[{"2", 
+               RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "0"}], "}"}]}], "}"}], "]"}], ",", " ", 
+        "Green", ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{"a", ",", " ", 
+           RowBox[{"-", 
+            RowBox[{"a", " ", ".", " ", 
+             RowBox[{"RotationMatrix", "[", 
+              RowBox[{
+               RowBox[{"-", "2"}], 
+               RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}]}], "}"}], "]"}], 
+        ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            RowBox[{"a", " ", ".", " ", 
+             RowBox[{"RotationMatrix", "[", 
+              RowBox[{
+               RowBox[{"-", "2"}], 
+               RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", 
+           RowBox[{"a", " ", ".", " ", 
+            RowBox[{"RotationMatrix", "[", 
+             RowBox[{"2", 
+              RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], "}"}], "]"}], 
+        ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"a", " ", ".", " ", 
+            RowBox[{"RotationMatrix", "[", 
+             RowBox[{"2", 
+              RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", " ", 
+           RowBox[{"-", "a"}]}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "a"}], ",", " ", 
+           RowBox[{"a", " ", ".", " ", 
+            RowBox[{"RotationMatrix", "[", 
+             RowBox[{
+              RowBox[{"-", "2"}], 
+              RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], "}"}], "]"}], 
+        ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"a", " ", ".", " ", 
+            RowBox[{"RotationMatrix", "[", 
+             RowBox[{
+              RowBox[{"-", "2"}], 
+              RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}], ",", " ", 
+           RowBox[{"-", 
+            RowBox[{"a", " ", ".", " ", 
+             RowBox[{"RotationMatrix", "[", 
+              RowBox[{"2", 
+               RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}]}], "}"}], "]"}], 
+        ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            RowBox[{"a", " ", ".", " ", 
+             RowBox[{"RotationMatrix", "[", 
+              RowBox[{"2", 
+               RowBox[{"\[Pi]", "/", " ", "3"}]}], "]"}]}]}], ",", " ", "a"}],
+           "}"}], "]"}]}], "}"}], ",", " ", 
+      RowBox[{"PlotRange", "\[Rule]", "10"}]}], "]"}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", " ", "4"}], "}"}]}], "}"}], ",", " ", "Locator"}], 
+     "}"}]}], "]"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.753644931999991*^9, 3.7536451101075535`*^9}, {
+   3.7536451469549007`*^9, 3.7536451470511284`*^9}, {3.7536452743455563`*^9, 
+   3.7536453152596626`*^9}, {3.7536453850603733`*^9, 
+   3.7536454527748985`*^9}, {3.753645507700831*^9, 3.753645927147634*^9}, {
+   3.753645970926736*^9, 3.753645992090192*^9}, {3.753646431705637*^9, 
+   3.7536466188427973`*^9}, {3.753646733127016*^9, 3.753646826189829*^9}, {
+   3.7536469043638673`*^9, 3.7536469815604753`*^9}, {3.7536470299937525`*^9, 
+   3.7536470408011475`*^9}, {3.753715322125226*^9, 3.7537153311859736`*^9}, 
+   3.753715616007207*^9, {3.7537159598809905`*^9, 
+   3.7537159788810472`*^9}},ExpressionUUID->"1f941e17-e2f8-406e-89e8-\
+f8672ef776b3"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a$$ = {0.14000000000000057`, 6.75}, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`a$$], {0, 4}}, Automatic}}, Typeset`size$$ = {
+    324., {159., 165.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`a$$ = {0, 4}}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Graphics[{
+         Circle[{0, 0}, 
+          Norm[$CellContext`a$$]], Blue, 
+         Line[{$CellContext`a$$, -$CellContext`a$$}], 
+         Circle[-$CellContext`a$$, 
+          Norm[$CellContext`a$$]], Red, 
+         Line[{
+           Dot[$CellContext`a$$, 
+            RotationMatrix[(-2) (Pi/3)]], {0, 0}}], 
+         Line[{-Dot[$CellContext`a$$, 
+             RotationMatrix[(-2) (Pi/3)]], {0, 0}}], 
+         Line[{
+           Dot[$CellContext`a$$, 
+            RotationMatrix[2 (Pi/3)]], {0, 0}}], 
+         Line[{-Dot[$CellContext`a$$, 
+             RotationMatrix[2 (Pi/3)]], {0, 0}}], Green, 
+         Line[{$CellContext`a$$, -Dot[$CellContext`a$$, 
+             RotationMatrix[(-2) (Pi/3)]]}], 
+         Line[{-Dot[$CellContext`a$$, 
+             RotationMatrix[(-2) (Pi/3)]], 
+           Dot[$CellContext`a$$, 
+            RotationMatrix[2 (Pi/3)]]}], 
+         Line[{
+           Dot[$CellContext`a$$, 
+            RotationMatrix[2 (Pi/3)]], -$CellContext`a$$}], 
+         Line[{-$CellContext`a$$, 
+           Dot[$CellContext`a$$, 
+            RotationMatrix[(-2) (Pi/3)]]}], 
+         Line[{
+           Dot[$CellContext`a$$, 
+            RotationMatrix[(-2) (Pi/3)]], -Dot[$CellContext`a$$, 
+             RotationMatrix[2 (Pi/3)]]}], 
+         Line[{-Dot[$CellContext`a$$, 
+             RotationMatrix[2 (Pi/3)]], $CellContext`a$$}]}, PlotRange -> 10],
+       "Specifications" :> {{{$CellContext`a$$, {0, 4}}, Automatic, 
+         ControlType -> Locator}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{377., {191., 197.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.7536458735145197`*^9, 3.753645927790162*^9, {3.7536459715711737`*^9, 
+   3.7536459924717216`*^9}, 3.7536464326105013`*^9, {3.7536464704605637`*^9, 
+   3.753646584112124*^9}, {3.753646810479571*^9, 3.7536468268123736`*^9}, {
+   3.7536469349180913`*^9, 3.7536469826074214`*^9}, 3.753647041417169*^9, 
+   3.7536501387567577`*^9, 3.7536556532576003`*^9, 3.753657405841613*^9, 
+   3.7536574485156937`*^9, 3.7536575484993963`*^9, 3.7537159634266768`*^9, 
+   3.753716059338997*^9, 3.753729621901539*^9, 3.7537305169929934`*^9, 
+   3.7537306228248825`*^9, 
+   3.7537321136718497`*^9},ExpressionUUID->"a506941f-48bb-41c3-9db1-\
+caf31d0f9120"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Constructing a Regular 15-gon", "Section",
+ CellChangeTimes->{{3.7536637112123485`*^9, 
+  3.7536637204936543`*^9}},ExpressionUUID->"0bb36564-b6a2-4a6d-bf43-\
+42ea3e62894c"],
+
+Cell["\<\
+Now we can get to the most interesting result of Euclid\[CloseCurlyQuote]s \
+works. Euclid proves that a regular 15-gon can be inscribed in a circle, \
+using the facts about inscribing an equilateral triangle and a regular \
+pentagon (proven above).  We begin by drawing one side of the triangle and \
+one side of the pentagon in our circle. These are the blue lines. Then, we \
+can find the midpoint of the line defined by the intersection of the circle \
+with these blue lines by bisecting it.  Extending this bisection to the \
+circle and connecting the two blue lines to it yields two sides of our 15-gon.\
+\>", "Text",
+ CellChangeTimes->{{3.753716147113959*^9, 3.753716319816142*^9}, {
+  3.75371639667612*^9, 3.7537164671952677`*^9}, {3.753716511369095*^9, 
+  3.7537165183718295`*^9}, {3.753729862905649*^9, 
+  3.7537298666872225`*^9}},ExpressionUUID->"8bf5ce13-9b54-4ae8-b1e2-\
+9268429cfb24"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"2", 
+      RowBox[{"\[Pi]", "/", "3"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"2", 
+      RowBox[{"\[Pi]", "/", "5"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"e", " ", "=", " ", 
+    RowBox[{"a", ".", 
+     RowBox[{"RotationMatrix", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"2", 
+           RowBox[{"\[Pi]", "/", "3"}]}], " ", "-", " ", 
+          RowBox[{"2", 
+           RowBox[{"\[Pi]", "/", "5"}]}]}], ")"}], " ", "/", " ", "2"}], " ", 
+       "+", " ", 
+       RowBox[{"2", 
+        RowBox[{"\[Pi]", "/", "5"}]}]}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c2", " ", "=", " ", 
+   RowBox[{"c", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", 
+         RowBox[{"\[Pi]", "/", "3"}]}], " ", "-", " ", 
+        RowBox[{"2", 
+         RowBox[{"\[Pi]", "/", "5"}]}]}], ")"}], " ", "/", " ", "2"}], 
+     "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b2", " ", "=", " ", 
+   RowBox[{"b", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", 
+         RowBox[{"\[Pi]", "/", "3"}]}], " ", "-", " ", 
+        RowBox[{"2", 
+         RowBox[{"\[Pi]", "/", "5"}]}]}], ")"}], " ", "/", " ", "2"}], 
+     "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"e2", " ", "=", " ", 
+    RowBox[{"e", ".", 
+     RowBox[{"RotationMatrix", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"2", 
+          RowBox[{"\[Pi]", "/", "3"}]}], " ", "-", " ", 
+         RowBox[{"2", 
+          RowBox[{"\[Pi]", "/", "5"}]}]}], ")"}], " ", "/", " ", "2"}], 
+      "]"}]}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Circle", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "1"}], "]"}], ",", 
+     "Blue", ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "c"}], "}"}], "]"}], ",", "Red", ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b", ",", " ", "e"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"c", ",", " ", "e"}], "}"}], "]"}], ",", " ", "Green", ",", 
+     " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"b", " ", "+", " ", "c"}], ")"}], " ", "/", " ", "2"}], ",",
+         " ", 
+        RowBox[{"2", "*", " ", "e"}]}], "}"}], "]"}]}], "}"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "1.25"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7536561671901627`*^9, 3.753656297193245*^9}, {
+   3.753656343965906*^9, 3.753656422187278*^9}, {3.7536566074068737`*^9, 
+   3.7536566162824736`*^9}, {3.7536566845850077`*^9, 
+   3.7536567047460437`*^9}, {3.753657705380145*^9, 3.7536578327386513`*^9}, {
+   3.753657880996085*^9, 3.753657894947463*^9}, {3.7536580347803464`*^9, 
+   3.753658093638343*^9}, {3.753658160702704*^9, 3.7536581939319105`*^9}, {
+   3.753658476497885*^9, 3.753658502269231*^9}, 3.7536597212943707`*^9, {
+   3.7536602384133406`*^9, 3.7536602993786755`*^9}, {3.7536616926905947`*^9, 
+   3.7536616930004673`*^9}, {3.7536623098261957`*^9, 
+   3.7536623571948757`*^9}, {3.753662495334613*^9, 3.7536625023438363`*^9}, {
+   3.753662542338972*^9, 3.7536625600853896`*^9}, {3.753662601336067*^9, 
+   3.7536626034556026`*^9}, {3.753662634188449*^9, 3.753662669511773*^9}, {
+   3.753662747793049*^9, 3.7536627567133436`*^9}, {3.753662807699027*^9, 
+   3.7536628255460453`*^9}, {3.7536628898979945`*^9, 3.753662891195019*^9}, {
+   3.753662929440833*^9, 3.7536629378384857`*^9}, {3.7536631298976493`*^9, 
+   3.753663139757943*^9}, {3.7536631711631923`*^9, 3.7536631756999335`*^9}, {
+   3.753663231994567*^9, 3.753663234622367*^9}, {3.7536632730529876`*^9, 
+   3.7536633765473084`*^9}, {3.7536637884904194`*^9, 3.753663790192728*^9}, {
+   3.753663853706607*^9, 3.753663871110241*^9}, 3.7537161101392155`*^9, {
+   3.7537164839725027`*^9, 3.7537165029496717`*^9}, {3.7537165650960546`*^9, 
+   3.7537165976965857`*^9}, {3.753829365827927*^9, 
+   3.753829421738144*^9}},ExpressionUUID->"68f38638-c52c-4fbc-9e43-\
+c3fd7dbac80f"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}], 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^Rational[1, 2], 
+        Rational[1, 4] (-1 + 5^Rational[1, 2])}}, {{0, 1}, {
+       0.9510565162951535, 0.30901699437494745`}}]], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}}, {{0, 1}, {
+       0.8660254037844386, -0.5}}]]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{
+       Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^Rational[1, 2], 
+        Rational[1, 4] (-1 + 5^Rational[1, 2])}, {
+       Cos[Rational[1, 30] Pi], -Sin[Rational[1, 30] Pi]}}, {{
+      0.9510565162951535, 0.30901699437494745`}, {
+      0.9945218953682733, -0.10452846326765346`}}]], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {
+       Cos[Rational[1, 30] Pi], -Sin[Rational[1, 30] Pi]}}, {{
+      0.8660254037844386, -0.5}, {
+      0.9945218953682733, -0.10452846326765346`}}]]}, 
+   {RGBColor[0, 1, 0], 
+    LineBox[NCache[{{
+       Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^Rational[1, 2], 
+        Rational[1, 4] (-1 + 5^Rational[1, 2])}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}}, {{
+      0.9510565162951535, 0.30901699437494745`}, {
+      0.8660254037844386, -0.5}}]], 
+    LineBox[NCache[{{
+       Rational[1, 2] (Rational[1, 2] 3^Rational[1, 2] + 
+         Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^
+           Rational[1, 2]), 
+        Rational[1, 2] (Rational[-1, 2] + 
+         Rational[1, 4] (-1 + 5^Rational[1, 2]))}, {
+       2 Cos[Rational[1, 30] Pi], (-2) Sin[Rational[1, 30] Pi]}}, {{
+      0.908540960039796, -0.09549150281252627}, {
+      1.9890437907365466`, -0.20905692653530691`}}]]}},
+  PlotRange->1.25]], "Output",
+ CellChangeTimes->{{3.7536562809101815`*^9, 3.753656297987403*^9}, {
+   3.7536563707030225`*^9, 3.7536563837455816`*^9}, 3.753656423328816*^9, {
+   3.753656685133577*^9, 3.753656705109952*^9}, 3.7536574059064384`*^9, 
+   3.7536574485774975`*^9, 3.7536575485153513`*^9, 3.7536576385255117`*^9, {
+   3.7536578259205275`*^9, 3.7536578333989825`*^9}, {3.753657882726327*^9, 
+   3.753657896348036*^9}, {3.753658075661029*^9, 3.753658094162511*^9}, 
+   3.753658195813878*^9, {3.7536584893995905`*^9, 3.753658502853891*^9}, {
+   3.753660240375569*^9, 3.753660299895775*^9}, 3.753661693491731*^9, 
+   3.7536622385429754`*^9, {3.7536626075074286`*^9, 3.75366267002875*^9}, {
+   3.7536627500523715`*^9, 3.753662757154457*^9}, 3.7536628410316877`*^9, 
+   3.75366293834094*^9, 3.7536631404012513`*^9, 3.75366317612971*^9, 
+   3.7536632351337523`*^9, {3.753663274795857*^9, 3.7536633770739007`*^9}, 
+   3.7536638718361244`*^9, 3.7537161117393923`*^9, {3.753716493712938*^9, 
+   3.753716503330619*^9}, 3.7537166039164343`*^9, 3.7537296219619513`*^9, 
+   3.7537305170747766`*^9, 3.7537306228867235`*^9, 3.7537321137376733`*^9, {
+   3.7538293767411766`*^9, 
+   3.753829422407909*^9}},ExpressionUUID->"a8060f19-ed82-4fd9-9ac3-\
+c8d26161a8f9"]
+}, Open  ]],
+
+Cell["\<\
+Now, we have one angle of the regular 15-gon. At this point, we can copy this \
+angle all the way around the circle to get our perfect 15-gon. As proof, I \
+rotated the sides of the triangle and pentagon (the blue lines), by this same \
+angle to ensure that they match up. The dashed blue lines are the lines from \
+the previous step, and the solid blue lines are the result of rotating by the \
+angle of the 15-gon. As you can see things line up perfectly with the regular \
+15-gon.\
+\>", "Text",
+ CellChangeTimes->{{3.7537166154095182`*^9, 3.7537167354223137`*^9}, {
+  3.7537168400850286`*^9, 3.7537169093016553`*^9}, {3.7537298763334856`*^9, 
+  3.753729876916559*^9}},ExpressionUUID->"d3930a7f-858d-4eb9-b8b3-\
+d6e3b7c006b3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Circle", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "1"}], "]"}], ",", 
+     "Blue", ",", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "c2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b2"}], "}"}], "]"}], ",", " ", "Green", ",", 
+     " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"CirclePoints", "[", "15", "]"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"CirclePoints", "[", "15", "]"}], "[", 
+         RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+        RowBox[{
+         RowBox[{"CirclePoints", "[", "15", "]"}], "[", 
+         RowBox[{"[", "15", "]"}], "]"}]}], "}"}], "]"}], ",", " ", "Red", 
+     ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b", ",", " ", "e"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"c", ",", " ", "e"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b2", ",", " ", "e2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"c2", ",", " ", "e2"}], "}"}], "]"}], ",", " ", "Dashed", ",", 
+     " ", "Blue", ",", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "c"}], "}"}], "]"}]}], "}"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "1.25"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.7536640836445885`*^9, 3.753664135657361*^9}, {
+  3.7537167580607233`*^9, 3.7537167940381827`*^9}, {3.7537168242002926`*^9, 
+  3.7537168344892187`*^9}},ExpressionUUID->"0001a24e-796a-4cec-a159-\
+37adad68ddef"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}], 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2] Cos[Rational[2, 15] Pi] + 
+        Rational[-1, 2] Sin[Rational[2, 15] Pi], 
+        Rational[-1, 2] Cos[Rational[2, 15] Pi] + 
+        Rational[-1, 2] 3^Rational[1, 2] Sin[Rational[2, 15] Pi]}}, {{0, 1}, {
+       0.5877852522924731, -0.8090169943749473}}]], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^Rational[1, 2] 
+         Cos[Rational[2, 15] Pi] + 
+        Rational[1, 4] (-1 + 5^Rational[1, 2]) Sin[Rational[2, 15] Pi], 
+        Rational[1, 4] (-1 + 5^Rational[1, 2]) Cos[Rational[2, 15] Pi] + 
+        Rational[-1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^
+          Rational[1, 2] Sin[Rational[2, 15] Pi]}}, {{0, 1}, {
+       0.9945218953682733, -0.10452846326765336`}}]]}, 
+   {RGBColor[0, 1, 0], 
+    LineBox[NCache[{{{
+        Sin[Rational[1, 15] Pi], -
+         Cos[Rational[1, 15] Pi]}, {(Rational[5, 8] + 
+          Rational[-1, 8] 5^Rational[1, 2])^Rational[1, 2], 
+         Rational[1, 4] (-1 - 5^Rational[1, 2])}, {
+        Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {
+        Cos[Rational[1, 30] Pi], -
+         Sin[Rational[1, 30] Pi]}, {(Rational[5, 8] + 
+          Rational[1, 8] 5^Rational[1, 2])^Rational[1, 2], 
+         Rational[1, 4] (-1 + 5^Rational[1, 2])}, {
+        Cos[Rational[7, 30] Pi], Sin[Rational[7, 30] Pi]}, {
+        Sin[Rational[2, 15] Pi], Cos[Rational[2, 15] Pi]}, {0, 
+        1}, {-Sin[Rational[2, 15] Pi], Cos[Rational[2, 15] Pi]}, {-
+         Cos[Rational[7, 30] Pi], Sin[
+         Rational[7, 30] 
+          Pi]}, {-(Rational[5, 8] + Rational[1, 8] 5^Rational[1, 2])^
+          Rational[1, 2], Rational[1, 4] (-1 + 5^Rational[1, 2])}, {-
+         Cos[Rational[1, 30] Pi], -Sin[Rational[1, 30] Pi]}, {
+        Rational[-1, 2] 3^Rational[1, 2], 
+         Rational[-1, 
+          2]}, {-(Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^
+          Rational[1, 2], Rational[1, 4] (-1 - 5^Rational[1, 2])}, {-
+         Sin[Rational[1, 15] Pi], -Cos[Rational[1, 15] Pi]}}}, {{{
+        0.20791169081775931`, -0.9781476007338057}, {
+        0.5877852522924731, -0.8090169943749475}, {
+        0.8660254037844386, -0.5}, {
+        0.9945218953682733, -0.10452846326765346`}, {0.9510565162951535, 
+        0.30901699437494745`}, {0.7431448254773942, 0.6691306063588582}, {
+        0.40673664307580015`, 0.9135454576426009}, {0, 
+        1}, {-0.40673664307580015`, 0.9135454576426009}, {-0.7431448254773942,
+         0.6691306063588582}, {-0.9510565162951535, 
+        0.30901699437494745`}, {-0.9945218953682733, -0.10452846326765346`}, \
+{-0.8660254037844386, -0.5}, {-0.5877852522924731, -0.8090169943749475}, \
+{-0.20791169081775931`, -0.9781476007338057}}}]], 
+    LineBox[NCache[{{
+       Sin[Rational[1, 15] Pi], -Cos[Rational[1, 15] Pi]}, {-
+        Sin[Rational[1, 15] Pi], -Cos[Rational[1, 15] Pi]}}, {{
+      0.20791169081775931`, -0.9781476007338057}, {-0.20791169081775931`, \
+-0.9781476007338057}}]]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{
+       Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^Rational[1, 2], 
+        Rational[1, 4] (-1 + 5^Rational[1, 2])}, {
+       Cos[Rational[1, 30] Pi], -Sin[Rational[1, 30] Pi]}}, {{
+      0.9510565162951535, 0.30901699437494745`}, {
+      0.9945218953682733, -0.10452846326765346`}}]], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {
+       Cos[Rational[1, 30] Pi], -Sin[Rational[1, 30] Pi]}}, {{
+      0.8660254037844386, -0.5}, {
+      0.9945218953682733, -0.10452846326765346`}}]], 
+    LineBox[NCache[{{
+       Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^Rational[1, 2] 
+         Cos[Rational[2, 15] Pi] + 
+        Rational[1, 4] (-1 + 5^Rational[1, 2]) Sin[Rational[2, 15] Pi], 
+        Rational[1, 4] (-1 + 5^Rational[1, 2]) Cos[Rational[2, 15] Pi] + 
+        Rational[-1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^
+          Rational[1, 2] Sin[Rational[2, 15] Pi]}, {
+       Cos[Rational[1, 30] Pi] Cos[Rational[2, 15] Pi] - 
+        Sin[Rational[1, 30] Pi] 
+        Sin[Rational[2, 15] Pi], -Cos[Rational[2, 15] Pi] 
+         Sin[Rational[1, 30] Pi] - Cos[Rational[1, 30] Pi] 
+        Sin[Rational[2, 15] Pi]}}, {{
+      0.9945218953682733, -0.10452846326765336`}, {
+      0.8660254037844386, -0.4999999999999999}}]], 
+    LineBox[
+     NCache[{{Rational[1, 2] 3^Rational[1, 2] Cos[Rational[2, 15] Pi] + 
+        Rational[-1, 2] Sin[Rational[2, 15] Pi], 
+        Rational[-1, 2] Cos[Rational[2, 15] Pi] + 
+        Rational[-1, 2] 3^Rational[1, 2] Sin[Rational[2, 15] Pi]}, {
+       Cos[Rational[1, 30] Pi] Cos[Rational[2, 15] Pi] - 
+        Sin[Rational[1, 30] Pi] 
+        Sin[Rational[2, 15] Pi], -Cos[Rational[2, 15] Pi] 
+         Sin[Rational[1, 30] Pi] - Cos[Rational[1, 30] Pi] 
+        Sin[Rational[2, 15] Pi]}}, {{
+      0.5877852522924731, -0.8090169943749473}, {
+      0.8660254037844386, -0.4999999999999999}}]]}, 
+   {RGBColor[0, 0, 1], Dashing[{Small, Small}], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] (Rational[1, 2] (5 + 5^Rational[1, 2]))^Rational[1, 2], 
+        Rational[1, 4] (-1 + 5^Rational[1, 2])}}, {{0, 1}, {
+       0.9510565162951535, 0.30901699437494745`}}]], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}}, {{0, 1}, {
+       0.8660254037844386, -0.5}}]]}},
+  PlotRange->1.25]], "Output",
+ CellChangeTimes->{
+  3.753663873700391*^9, 3.7536640908563733`*^9, 3.753664137995015*^9, {
+   3.753716761295798*^9, 3.753716774126259*^9}, {3.7537168299791827`*^9, 
+   3.753716835621973*^9}, 3.753729622094116*^9, 3.75373051712418*^9, 
+   3.753730622933632*^9, 
+   3.7537321137646008`*^9},ExpressionUUID->"0702d1c5-6495-4681-84f3-\
+f34c65449bfb"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["A Note on Regular mn-gons", "Subsection",
+ CellChangeTimes->{{3.7537169242875404`*^9, 
+  3.7537169374754744`*^9}},ExpressionUUID->"3158f45d-9369-4b34-a05e-\
+b25f3fc0b3db"],
+
+Cell["\<\
+While this result is certainly interesting, it has an even more resounding \
+extension. This method, in general can be used to inscribe any mn-gon inside \
+a circle if the following hold:
+\t1) Both an m-gon and an n-gon are constructible.
+\t2) m and n are relatively prime.
+In the case above, we are inscribing a 5*3-gon, and we know that we can \
+inscribe a regular pentagon and triangle. Also, 3 and 5 are relatively prime. \
+This is seen in the proof, too; we needed one side of each of these polygons \
+for it to work. But, for example, if you tried to inscribe an 18-gon using a \
+triangle and a hexagon, it wouldn\[CloseCurlyQuote]t work, because 3 and 6 \
+are not relatively prime. Why?\
+\>", "Text",
+ CellChangeTimes->{{3.753716945989154*^9, 3.7537170902211266`*^9}, {
+  3.7537174255723867`*^9, 3.753717577739275*^9}, {3.7537185280807505`*^9, 
+  3.7537185289330845`*^9}, {3.7538295609584613`*^9, 
+  3.75382956505685*^9}},ExpressionUUID->"923f559d-c44c-4642-bdee-\
+ba3421dee2f3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", "1"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b1", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"2", 
+      RowBox[{"\[Pi]", "/", "3"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c1", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Pi]", "/", "3"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"e1", " ", "=", " ", 
+    RowBox[{"a", ".", 
+     RowBox[{"RotationMatrix", "[", 
+      RowBox[{
+       RowBox[{"\[Pi]", "/", "6"}], " ", "+", " ", 
+       RowBox[{"\[Pi]", "/", "3"}]}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b2", " ", "=", " ", 
+   RowBox[{"b1", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Pi]", "/", "6"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c2", " ", "=", " ", 
+   RowBox[{"c1", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Pi]", "/", "6"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Circle", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "1"}], "]"}], ",", " ",
+      "Blue", ",", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b1"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "c1"}], "}"}], "]"}], ",", " ", "Red", ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"c1", ",", " ", "e1"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b1", ",", " ", "e1"}], "}"}], "]"}], ",", " ", "Green", ",", 
+     " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b1", ",", " ", "c1"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"b1", " ", "+", " ", "c1"}], ")"}], " ", "/", " ", "2"}], 
+        ",", " ", 
+        RowBox[{"2", " ", "*", " ", "e1"}]}], "}"}], "]"}], ",", " ", "Blue", 
+     ",", "Dashed", ",", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "c2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b2"}], "}"}], "]"}]}], "}"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "1.25"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.753717581341465*^9, 3.7537176582585874`*^9}, {
+  3.7537177036977777`*^9, 3.753717822154462*^9}, {3.7537178738477416`*^9, 
+  3.7537179362372475`*^9}, {3.75371796692165*^9, 3.7537179680494523`*^9}, {
+  3.7537179999826612`*^9, 3.75371810096607*^9}, {3.753718140247346*^9, 
+  3.753718160084611*^9}, {3.7537182020175676`*^9, 3.7537183235696106`*^9}, {
+  3.7537183536108294`*^9, 3.753718364868104*^9}, {3.753829629277981*^9, 
+  3.753829667212386*^9}},ExpressionUUID->"17803ac6-3bd3-428e-bb58-\
+5d97c55a10dc"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}], 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}}, {{0, 1}, {
+       0.8660254037844386, -0.5}}]], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}}, {{0, 1}, {
+       0.8660254037844386, 0.5}}]]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}, {1, 
+       0}}, {{0.8660254037844386, 0.5}, {1, 0}}]], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {1, 
+       0}}, {{0.8660254037844386, -0.5}, {1, 0}}]]}, 
+   {RGBColor[0, 1, 0], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}}, {{
+      0.8660254037844386, -0.5}, {0.8660254037844386, 0.5}}]], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], 0}, {2, 0}}, {{
+       0.8660254037844386, 0}, {2, 0}}]]}, 
+   {RGBColor[0, 0, 1], Dashing[{Small, Small}], LineBox[{{0, 1}, {1, 0}}], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2], Rational[-1, 2] 3^Rational[1, 2]}}, {{0, 1}, {
+       0.5, -0.8660254037844386}}]]}},
+  PlotRange->1.25]], "Output",
+ CellChangeTimes->{{3.753717653337419*^9, 3.7537176597544594`*^9}, {
+   3.7537177223326893`*^9, 3.7537177435634737`*^9}, {3.75371779295644*^9, 
+   3.7537178226110487`*^9}, {3.7537178843228226`*^9, 3.7537179367389207`*^9}, 
+   3.7537179689569616`*^9, {3.753718067714285*^9, 3.753718101652338*^9}, {
+   3.7537182249729433`*^9, 3.7537182719455743`*^9}, {3.753718313489005*^9, 
+   3.753718324114155*^9}, 3.7537183714332457`*^9, 3.7537296221339827`*^9, 
+   3.753730010260709*^9, 3.7537305171471505`*^9, 3.753730622964546*^9, 
+   3.753732113787543*^9, {3.7538296531879997`*^9, 
+   3.7538296695124207`*^9}},ExpressionUUID->"ca3e07e8-7e08-4481-bef8-\
+7728ed487726"]
+}, Open  ]],
+
+Cell["\<\
+After the first two iterations, things seem to work fine. However, if we \
+iterate this process, say, 12 more times...\
+\>", "Text",
+ CellChangeTimes->{{3.7537183818120317`*^9, 
+  3.753718415761516*^9}},ExpressionUUID->"43b09142-d101-4736-8ecb-\
+c0496643dcda"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"b9", " ", "=", " ", "b1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c9", " ", "=", " ", "c1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", " ", "=", " ", "0"}], ",", " ", 
+   RowBox[{"i", " ", "<", " ", "12"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", " ", 
+   RowBox[{"b9", " ", "=", " ", 
+    RowBox[{"b9", ".", 
+     RowBox[{"RotationMatrix", "[", 
+      RowBox[{"\[Pi]", "/", "6"}], "]"}]}]}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", " ", "=", " ", "0"}], ",", " ", 
+   RowBox[{"i", " ", "<", " ", "12"}], ",", " ", 
+   RowBox[{"i", "++"}], ",", " ", 
+   RowBox[{"c9", " ", "=", " ", 
+    RowBox[{"c9", ".", 
+     RowBox[{"RotationMatrix", "[", 
+      RowBox[{"\[Pi]", "/", "6"}], "]"}]}]}]}], "]"}]}], "Input",ExpressionUUI\
+D->"1647454a-885d-496f-b24f-2e9cce193f6b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"Graphics", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Circle", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "1"}], "]"}], ",", 
+      " ", "Blue", ",", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", " ", "b1"}], "}"}], "]"}], ",", " ", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", " ", "c1"}], "}"}], "]"}], ",", " ", "Red", ",", 
+      " ", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"c1", ",", " ", "e1"}], "}"}], "]"}], ",", " ", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"b1", ",", " ", "e1"}], "}"}], "]"}], ",", "Green", ",", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", " ", "c9"}], "}"}], "]"}], ",", " ", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", " ", "b9"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+      "Dashed", ",", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", " ", "c2"}], "}"}], "]"}], ",", " ", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", " ", "b2"}], "}"}], "]"}]}], "}"}], ",", " ", 
+    RowBox[{"PlotRange", "\[Rule]", "1.25"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.7537184221605816`*^9, 3.7537184283729744`*^9}, {
+  3.7537299853578587`*^9, 3.753729987450089*^9}, {3.753730022453209*^9, 
+  3.7537300258898263`*^9}},ExpressionUUID->"5806d970-4297-4bab-ae34-\
+8a37b6039b76"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}], 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}}, {{0, 1}, {
+       0.8660254037844386, -0.5}}]], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}}, {{0, 1}, {
+       0.8660254037844386, 0.5}}]]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}, {1, 
+       0}}, {{0.8660254037844386, 0.5}, {1, 0}}]], 
+    LineBox[NCache[{{Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {1, 
+       0}}, {{0.8660254037844386, -0.5}, {1, 0}}]]}, 
+   {RGBColor[0, 1, 0], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}}, {{0, 1}, {
+       0.8660254037844386, 0.5}}]], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}}, {{0, 1}, {
+       0.8660254037844386, -0.5}}]]}, 
+   {RGBColor[0, 0, 1], Dashing[{Small, Small}], LineBox[{{0, 1}, {1, 0}}], 
+    LineBox[NCache[{{0, 1}, {
+       Rational[1, 2], Rational[-1, 2] 3^Rational[1, 2]}}, {{0, 1}, {
+       0.5, -0.8660254037844386}}]]}},
+  PlotRange->1.25]], "Output",
+ CellChangeTimes->{
+  3.753718429190709*^9, 3.7537296221698866`*^9, {3.7537299994024496`*^9, 
+   3.753730027404169*^9}, 3.7537305171840515`*^9, 3.753730623004444*^9, 
+   3.7537321138284326`*^9},ExpressionUUID->"0167ba24-3047-47e9-b563-\
+8f96c71d6f0b"]
+}, Open  ]],
+
+Cell["\<\
+...then the lines begin to overlap themselves. The dotted green lines are 12 \
+iterations after the solid blue lines, yet they overlap anyway. We would \
+expect this after all 18 iterations have been executed all 18 sides have been \
+drawn. As a result, we would begin drawing lines over already existing lines \
+and thus never get to 18 sides. If the m and n are co-prime, this overlap \
+will not happen until all of the sides have been drawn.\
+\>", "Text",
+ CellChangeTimes->{{3.7537184360450325`*^9, 3.753718514070284*^9}, {
+  3.7537185809826727`*^9, 3.7537186769027147`*^9}, {3.7537300548628607`*^9, 
+  3.7537300638517733`*^9}},ExpressionUUID->"03065d1d-8354-4641-aa7b-\
+cc58585a2f94"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.753718368765084*^9, 3.7537183689475856`*^9}, 
+   3.753718426152585*^9},ExpressionUUID->"a5ca249d-cfe8-48b1-a641-\
+c6f95688f6f6"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Constructing a ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["2", "n"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "ea5528d0-102d-4581-9c3f-e9665d1c9468"],
+ "-gon"
+}], "Section",
+ CellChangeTimes->{{3.7536642273686247`*^9, 3.753664233312916*^9}, {
+  3.753664638168169*^9, 
+  3.7536646405556393`*^9}},ExpressionUUID->"a3f79bc1-eb36-4746-8985-\
+594848e2cc14"],
+
+Cell[TextData[{
+ "One more interesting result arises with the idea of bisecting lines. If we \
+have an even number of lines in a regular polygon, then we can bisect all of \
+those lines and still have a regular polygon. Thus, we can form any ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["2", "n"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "debd7bc9-8ee3-4de3-80fa-40eb4dbee98e"],
+ "-gon just by bisecting lines. Of course, n must be greater than 1, since \
+there is no 2-gon. So, we can begin with a regular 4-gon, that is, a square. \
+We draw one diameter, and then draw another by bisecting the first one. \
+Connecting the points on the circle gives us our square."
+}], "Text",
+ CellChangeTimes->{{3.7537189561765375`*^9, 
+  3.753719111200132*^9}},ExpressionUUID->"1ccf69d6-5e89-499b-8d3c-\
+3131ba9ea319"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", "4"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"-", "a"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", " ", "0"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"d", " ", "=", " ", 
+    RowBox[{"-", "c"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"e", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"2", " ", "*", " ", 
+      RowBox[{"Sqrt", "[", "2", "]"}]}], ",", " ", 
+     RowBox[{"2", " ", "*", " ", 
+      RowBox[{"Sqrt", "[", "2", "]"}]}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"f", " ", "=", " ", 
+   RowBox[{"-", "e"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"g", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "2"}], " ", "*", " ", 
+      RowBox[{"Sqrt", "[", "2", "]"}]}], ",", " ", 
+     RowBox[{"2", " ", "*", " ", 
+      RowBox[{"Sqrt", "[", "2", "]"}]}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"h", " ", "=", " ", 
+   RowBox[{"-", "g"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"0.53", ",", "0.74", ",", "1."}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "d"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "d"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"b", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"b", ",", " ", "d"}], "}"}], "]"}]}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7536642603369064`*^9, 3.7536643511442285`*^9}, {
+  3.7536650631519156`*^9, 
+  3.753665257725772*^9}},ExpressionUUID->"45f605ee-a886-46fe-a552-\
+53b5608050bf"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}, 4], 
+   {RGBColor[0.53, 0.74, 1.], LineBox[{{0, 4}, {0, -4}}], 
+    LineBox[{{4, 0}, {-4, 0}}]}, 
+   {RGBColor[0, 0, 1], LineBox[{{0, 4}, {4, 0}}], LineBox[{{0, 4}, {-4, 0}}], 
+    LineBox[{{0, -4}, {4, 0}}], LineBox[{{0, -4}, {-4, 0}}]}}]], "Output",
+ CellChangeTimes->{
+  3.7536643119770155`*^9, 3.753664352160613*^9, {3.7536650645017242`*^9, 
+   3.7536650967320967`*^9}, {3.753665228731741*^9, 3.753665258081727*^9}, 
+   3.7537296222058268`*^9, 3.753730517225907*^9, 3.753730623044302*^9, 
+   3.75373211617108*^9},ExpressionUUID->"661ea30a-4b2b-48ff-bf4a-\
+213eaed6115f"]
+}, Open  ]],
+
+Cell["\<\
+Then from here, we can apply the same process and bisect all four sides of \
+the square. Then, connecting all of the points on the circle gives us our \
+regular octagon.\
+\>", "Text",
+ CellChangeTimes->{{3.7537191164567814`*^9, 3.7537191615841064`*^9}, {
+  3.7537302459071155`*^9, 
+  3.753730245943018*^9}},ExpressionUUID->"230cb40e-b938-406d-be2e-\
+4d467aa0cfe2"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Circle", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"1.", ",", "0.49", ",", "0.5"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"e", ",", "f"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"g", ",", " ", "h"}], "}"}], "]"}], ",", " ", "Red", ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "e"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"e", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "h"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"h", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"b", ",", " ", "f"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"f", ",", " ", "d"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"d", ",", " ", "g"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"g", ",", " ", "a"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"0.53", ",", "0.74", ",", "1."}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "d"}], "}"}], "]"}]}], "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.7536654172026143`*^9, 3.753665418392479*^9}, {
+  3.753665504402161*^9, 3.753665505832562*^9}, {3.7536657732629623`*^9, 
+  3.7536657950324388`*^9}},ExpressionUUID->"931b13be-0809-4982-a68c-\
+1301d4cf8f8a"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}, 4], 
+   {RGBColor[1., 0.49, 0.5], 
+    LineBox[NCache[{{
+       2 2^Rational[1, 2], 2 2^Rational[1, 2]}, {(-2) 2^Rational[1, 2], (-2) 
+        2^Rational[1, 2]}}, {{2.8284271247461903`, 
+      2.8284271247461903`}, {-2.8284271247461903`, -2.8284271247461903`}}]], 
+    LineBox[NCache[{{(-2) 2^Rational[1, 2], 2 2^Rational[1, 2]}, {
+       2 2^Rational[1, 2], (-2) 2^Rational[1, 2]}}, {{-2.8284271247461903`, 
+      2.8284271247461903`}, {2.8284271247461903`, -2.8284271247461903`}}]]}, 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{0, 4}, {2 2^Rational[1, 2], 2 2^Rational[1, 2]}}, {{0, 
+       4}, {2.8284271247461903`, 2.8284271247461903`}}]], 
+    LineBox[NCache[{{2 2^Rational[1, 2], 2 2^Rational[1, 2]}, {4, 0}}, {{
+       2.8284271247461903`, 2.8284271247461903`}, {4, 0}}]], 
+    LineBox[NCache[{{4, 0}, {2 2^Rational[1, 2], (-2) 2^Rational[1, 2]}}, {{4,
+        0}, {2.8284271247461903`, -2.8284271247461903`}}]], 
+    LineBox[NCache[{{2 2^Rational[1, 2], (-2) 2^Rational[1, 2]}, {0, -4}}, {{
+       2.8284271247461903`, -2.8284271247461903`}, {0, -4}}]], 
+    LineBox[NCache[{{
+       0, -4}, {(-2) 2^Rational[1, 2], (-2) 2^Rational[1, 2]}}, {{
+       0, -4}, {-2.8284271247461903`, -2.8284271247461903`}}]], 
+    LineBox[NCache[{{(-2) 2^Rational[1, 2], (-2) 2^Rational[1, 2]}, {-4, 
+       0}}, {{-2.8284271247461903`, -2.8284271247461903`}, {-4, 0}}]], 
+    LineBox[NCache[{{-4, 
+       0}, {(-2) 2^Rational[1, 2], 2 2^Rational[1, 2]}}, {{-4, 
+       0}, {-2.8284271247461903`, 2.8284271247461903`}}]], 
+    LineBox[NCache[{{(-2) 2^Rational[1, 2], 2 2^Rational[1, 2]}, {0, 
+       4}}, {{-2.8284271247461903`, 2.8284271247461903`}, {0, 4}}]]}, 
+   {RGBColor[0.53, 0.74, 1.], LineBox[{{0, 4}, {0, -4}}], 
+    LineBox[{{4, 0}, {-4, 0}}]}}]], "Output",
+ CellChangeTimes->{3.7536654187926826`*^9, 3.7536655061722136`*^9, 
+  3.7537296222277718`*^9, 3.75373051724785*^9, 3.753730623066269*^9, 
+  3.7537321161945333`*^9},ExpressionUUID->"774c1655-821d-41d1-a085-\
+780ab86fddfd"]
+}, Open  ]],
+
+Cell["\<\
+This process can be repeated continually, now forming a 16-gon.\
+\>", "Text",
+ CellChangeTimes->{{3.7537191665811415`*^9, 3.7537192017991986`*^9}, {
+  3.7537193842943974`*^9, 
+  3.753719395910855*^9}},ExpressionUUID->"9b3fe268-ce6c-413d-bd71-\
+17309ab87a9f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Rotate", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Circle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", "4"}], "]"}], ",", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"1.", ",", "0.49", ",", "0.5"}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{"e", ",", "f"}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{"g", ",", " ", "h"}], "}"}], "]"}], ",", " ", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"0.53", ",", "0.74", ",", "1."}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{"c", ",", " ", "d"}], "}"}], "]"}]}], "}"}], ",", " ", 
+      RowBox[{"\[Pi]", "/", " ", "8"}]}], "]"}], ",", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"0.42", ",", "1.", ",", "0.08"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"e", ",", "f"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"g", ",", " ", "h"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"c", ",", " ", "d"}], "}"}], "]"}], ",", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"0.", ",", "0.49", ",", "0.01"}], "]"}], ",", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{"CirclePoints", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"4", ",", " ", 
+          RowBox[{"\[Pi]", "/", "4"}]}], "}"}], ",", " ", "16"}], "]"}], "}"}]
+      , "]"}], ",", " ", 
+    RowBox[{"Line", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"CirclePoints", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"4", ",", " ", 
+            RowBox[{"\[Pi]", "/", "4"}]}], "}"}], ",", " ", "16"}], "]"}], 
+        "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+       RowBox[{
+        RowBox[{"CirclePoints", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"4", ",", " ", 
+            RowBox[{"\[Pi]", "/", "4"}]}], "}"}], ",", " ", "16"}], "]"}], 
+        "[", 
+        RowBox[{"[", "16", "]"}], "]"}]}], "}"}], "]"}]}], "}"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.753665797381939*^9, 3.7536659434222946`*^9}, {
+  3.753665978833088*^9, 
+  3.7536660853728423`*^9}},ExpressionUUID->"9d75806a-ff05-42b6-adaa-\
+bbdb56bb5837"],
+
+Cell[BoxData[
+ GraphicsBox[{GeometricTransformationBox[{CircleBox[{0, 0}, 4], 
+     {RGBColor[1., 0.49, 0.5], 
+      LineBox[NCache[{{
+         2 2^Rational[1, 2], 2 2^Rational[1, 2]}, {(-2) 
+          2^Rational[1, 2], (-2) 2^Rational[1, 2]}}, {{2.8284271247461903`, 
+        2.8284271247461903`}, {-2.8284271247461903`, -2.8284271247461903`}}]],
+       LineBox[NCache[{{(-2) 2^Rational[1, 2], 2 2^Rational[1, 2]}, {
+         2 2^Rational[1, 2], (-2) 2^Rational[1, 2]}}, {{-2.8284271247461903`, 
+        2.8284271247461903`}, {2.8284271247461903`, -2.8284271247461903`}}]]}, 
+     {RGBColor[0.53, 0.74, 1.], LineBox[{{0, 4}, {0, -4}}], 
+      LineBox[{{4, 0}, {-4, 0}}]}}, {{{
+     0.9238795325112867, -0.3826834323650898}, {0.3826834323650898, 
+     0.9238795325112867}}, Center}], 
+   {RGBColor[0.42, 1., 0.08], 
+    LineBox[NCache[{{
+       2 2^Rational[1, 2], 2 2^Rational[1, 2]}, {(-2) 2^Rational[1, 2], (-2) 
+        2^Rational[1, 2]}}, {{2.8284271247461903`, 
+      2.8284271247461903`}, {-2.8284271247461903`, -2.8284271247461903`}}]], 
+    LineBox[NCache[{{(-2) 2^Rational[1, 2], 2 2^Rational[1, 2]}, {
+       2 2^Rational[1, 2], (-2) 2^Rational[1, 2]}}, {{-2.8284271247461903`, 
+      2.8284271247461903`}, {2.8284271247461903`, -2.8284271247461903`}}]], 
+    LineBox[{{0, 4}, {0, -4}}], LineBox[{{4, 0}, {-4, 0}}]}, 
+   {RGBColor[0., 0.49, 0.01], 
+    LineBox[NCache[{{{2 2^Rational[1, 2], 2 2^Rational[1, 2]}, {
+        4 Sin[Rational[1, 8] Pi], 4 Cos[Rational[1, 8] Pi]}, {0, 
+        4}, {(-4) Sin[Rational[1, 8] Pi], 4 Cos[Rational[1, 8] Pi]}, {(-2) 
+         2^Rational[1, 2], 2 2^Rational[1, 2]}, {(-4) Cos[Rational[1, 8] Pi], 
+         4 Sin[Rational[1, 8] Pi]}, {-4, 
+        0}, {(-4) Cos[Rational[1, 8] Pi], (-4) Sin[Rational[1, 8] Pi]}, {(-2) 
+         2^Rational[1, 2], (-2) 2^Rational[1, 2]}, {(-4) 
+         Sin[Rational[1, 8] Pi], (-4) Cos[Rational[1, 8] Pi]}, {0, -4}, {
+        4 Sin[Rational[1, 8] Pi], (-4) Cos[Rational[1, 8] Pi]}, {
+        2 2^Rational[1, 2], (-2) 2^Rational[1, 2]}, {
+        4 Cos[Rational[1, 8] Pi], (-4) Sin[Rational[1, 8] Pi]}, {4, 0}, {
+        4 Cos[Rational[1, 8] Pi], 4 Sin[Rational[1, 8] Pi]}}}, {{{
+        2.8284271247461903`, 2.8284271247461903`}, {1.5307337294603591`, 
+        3.695518130045147}, {0, 4}, {-1.5307337294603591`, 
+        3.695518130045147}, {-2.8284271247461903`, 
+        2.8284271247461903`}, {-3.695518130045147, 1.5307337294603591`}, {-4, 
+        0}, {-3.695518130045147, -1.5307337294603591`}, \
+{-2.8284271247461903`, -2.8284271247461903`}, {-1.5307337294603591`, \
+-3.695518130045147}, {0, -4}, {1.5307337294603591`, -3.695518130045147}, {
+        2.8284271247461903`, -2.8284271247461903`}, {
+        3.695518130045147, -1.5307337294603591`}, {4, 0}, {3.695518130045147, 
+        1.5307337294603591`}}}]], 
+    LineBox[NCache[{{2 2^Rational[1, 2], 2 2^Rational[1, 2]}, {
+       4 Cos[Rational[1, 8] Pi], 4 Sin[Rational[1, 8] Pi]}}, {{
+      2.8284271247461903`, 2.8284271247461903`}, {3.695518130045147, 
+      1.5307337294603591`}}]]}}]], "Output",
+ CellChangeTimes->{{3.753666032786739*^9, 3.7536660874072037`*^9}, 
+   3.753729622250671*^9, 3.753730517274809*^9, 3.7537306230927696`*^9, 
+   3.753732116224452*^9},ExpressionUUID->"ff2be88b-d599-421c-9c94-\
+b92ee9bedbdb"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Doubling the Number of Sides of a Regular Polygon", "Subsection",
+ CellChangeTimes->{{3.7537196267890635`*^9, 
+  3.7537196381657763`*^9}},ExpressionUUID->"d4022264-1b46-4f3d-b601-\
+7c8419acc65c"],
+
+Cell[TextData[{
+ "So, given a square, we can go on to produce any ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["2", "n"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "43689295-0922-4ffc-9263-6b4e07a2f699"],
+ "-gon. But, what if we started with a different regular polygon, like a \
+triangle?"
+}], "Text",
+ CellChangeTimes->{{3.753719539218897*^9, 3.7537196120156107`*^9}, {
+  3.7537196428027544`*^9, 3.7537196434989443`*^9}, {3.7537196904775157`*^9, 
+  3.753719691633901*^9}, {3.753719737671455*^9, 
+  3.7537197435316963`*^9}},ExpressionUUID->"82a67864-0ea9-4574-a76d-\
+201c970b3c74"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", 
+     RowBox[{"-", "4"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"2", 
+      RowBox[{"\[Pi]", "/", "3"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"-", "2"}], 
+      RowBox[{"\[Pi]", "/", "3"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"z", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", "0"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a2", " ", "=", " ", 
+   RowBox[{"a", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Pi]", "/", "3"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b2", " ", "=", " ", 
+   RowBox[{"b", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Pi]", "/", "3"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c2", " ", "=", " ", 
+   RowBox[{"c", ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Pi]", "/", "3"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Circle", "[", 
+      RowBox[{"z", ",", " ", "4"}], "]"}], ",", "Red", ",", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "c"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b", ",", " ", "c"}], "}"}], "]"}], ",", "Green", ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "a2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"a2", ",", " ", "c"}], "}"}], "]"}], ",", "  ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"c", ",", " ", "c2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"c2", ",", " ", "b"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b", ",", " ", "b2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"b2", ",", " ", "a"}], "}"}], "]"}], ",", " ", "Blue", ",", 
+     " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"z", ",", " ", "a2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"z", ",", " ", "b2"}], "}"}], "]"}], ",", " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"{", 
+       RowBox[{"z", ",", " ", "c2"}], "}"}], "]"}]}], "}"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "5"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.753719667382205*^9, 3.753719668119215*^9}, {
+  3.7537197021068344`*^9, 3.7537197105062*^9}, {3.753719760932246*^9, 
+  3.7537200926786027`*^9}, {3.7537280158074017`*^9, 3.753728018151008*^9}, {
+  3.753730261761687*^9, 3.7537302739175425`*^9}, {3.7538302923571253`*^9, 
+  3.753830296535122*^9}},ExpressionUUID->"624d5b46-9bab-47fc-8d8e-\
+353cdfd3132c"],
+
+Cell[BoxData[
+ GraphicsBox[{CircleBox[{0, 0}, 4], 
+   {RGBColor[1, 0, 0], 
+    LineBox[NCache[{{0, -4}, {(-2) 3^Rational[1, 2], 2}}, {{
+       0, -4}, {-3.4641016151377544`, 2}}]], 
+    LineBox[NCache[{{0, -4}, {2 3^Rational[1, 2], 2}}, {{0, -4}, {
+       3.4641016151377544`, 2}}]], 
+    LineBox[NCache[{{2 3^Rational[1, 2], 2}, {(-2) 3^Rational[1, 2], 2}}, {{
+       3.4641016151377544`, 2}, {-3.4641016151377544`, 2}}]]}, 
+   {RGBColor[0, 1, 0], 
+    LineBox[NCache[{{0, -4}, {(-2) 3^Rational[1, 2], -2}}, {{
+       0, -4}, {-3.4641016151377544`, -2}}]], 
+    LineBox[NCache[{{(-2) 3^Rational[1, 2], -2}, {(-2) 3^Rational[1, 2], 
+        2}}, {{-3.4641016151377544`, -2}, {-3.4641016151377544`, 2}}]], 
+    LineBox[NCache[{{(-2) 3^Rational[1, 2], 2}, {0, 
+       4}}, {{-3.4641016151377544`, 2}, {0, 4}}]], 
+    LineBox[NCache[{{0, 4}, {2 3^Rational[1, 2], 2}}, {{0, 4}, {
+       3.4641016151377544`, 2}}]], 
+    LineBox[NCache[{{2 3^Rational[1, 2], 2}, {2 3^Rational[1, 2], -2}}, {{
+       3.4641016151377544`, 2}, {3.4641016151377544`, -2}}]], 
+    LineBox[NCache[{{2 3^Rational[1, 2], -2}, {0, -4}}, {{
+       3.4641016151377544`, -2}, {0, -4}}]]}, 
+   {RGBColor[0, 0, 1], 
+    LineBox[NCache[{{0, 0}, {(-2) 3^Rational[1, 2], -2}}, {{0, 
+       0}, {-3.4641016151377544`, -2}}]], 
+    LineBox[NCache[{{0, 0}, {2 3^Rational[1, 2], -2}}, {{0, 0}, {
+       3.4641016151377544`, -2}}]], LineBox[{{0, 0}, {0, 4}}]}},
+  PlotRange->5]], "Output",
+ CellChangeTimes->{
+  3.753719977584609*^9, {3.7537200501164684`*^9, 3.7537200931518745`*^9}, 
+   3.753729622271646*^9, {3.7537302661907206`*^9, 3.753730274403142*^9}, 
+   3.753730517296751*^9, 3.7537306231157465`*^9, 3.7537321162534037`*^9, 
+   3.753830297133501*^9},ExpressionUUID->"b3013b90-2074-42dd-8629-\
+bde8aba675ca"]
+}, Open  ]],
+
+Cell["\<\
+Bisecting each side of the triangle gives us six lines, which form a regular \
+hexagon. This means that, given any regular polygon, we can double the number \
+of sides of it by bisecting each side. So, say we wanted to draw a perfect \
+30-gon. To do this, you would draw the 15-gon as seen above, then bisect each \
+of its sides using this method. Unfortunately, there is no way to trisect a \
+side using Euclidean tools, so the most we can do is double the number of \
+sides.\
+\>", "Text",
+ CellChangeTimes->{{3.7537201393533993`*^9, 
+  3.753720349432315*^9}},ExpressionUUID->"f5620e25-808a-4951-a50f-\
+e611188679de"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["What Regular Polygons can be Created?", "Section",
+ CellChangeTimes->{{3.7537203621455393`*^9, 
+  3.7537203722384367`*^9}},ExpressionUUID->"c139883d-07c9-480f-9e46-\
+db283e702b85"],
+
+Cell[TextData[{
+ "We know that Euclid was able to construct perfect 3, 4, 5, 6, and 15-gons. \
+Through the proof of the 15-gon, we know we can construct any mn-gon if m and \
+n are relatively prime and we can construct a regular m-gon and n-gon. While \
+checking if m and n are relatively prime is easy, how do we know which m and \
+n-gons we can actually construct? Work on this question was performed by \
+Gauss, and he was able to construct a 17-gon using the Euclidean tools.  So, \
+we have 3, 5, and 17 in as values of m and n. It turns out that the only \
+constructible n-gons with Euclidean Tools are when n is a ",
+ StyleBox["Fermat prime, ",
+  FontWeight->"Bold"],
+ "as proven in the Gauss-Wantzel theorem",
+ StyleBox[". ",
+  FontWeight->"Bold"],
+ "Fermat primes are the numbers of the form ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["2", 
+     SuperscriptBox["2", "k"]], "+", " ", "1"}], TraditionalForm]],
+  ExpressionUUID->"e7c51a37-420b-4975-bdcf-f49e40566da6"],
+ ". The only known Fermat primes are 3, 5, 17, 257, and 65537 (which is k = \
+{0, 4} in the general form). So, the only n-gons that can be created are \
+those such that:\nn = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"{", 
+    SuperscriptBox["2", "a"]}], TraditionalForm]],ExpressionUUID->
+  "d8158dc2-8f83-462b-af08-0ca11329fdb8"],
+ " * ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["3", "b"], TraditionalForm]],ExpressionUUID->
+  "da999b84-076c-4f8f-bf2f-c0ccc5b57891"],
+ " * ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["5", "c"], TraditionalForm]],ExpressionUUID->
+  "ea09e8e0-5279-4cc6-9335-f47627d2437a"],
+ " * ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["17", "d"], TraditionalForm]],ExpressionUUID->
+  "873835f9-096a-4e41-807c-cd8e4891f695"],
+ " * ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["257", "e"], TraditionalForm]],ExpressionUUID->
+  "46511129-8823-44ce-bcc1-9687b34436fb"],
+ " * ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["65537", "f"], TraditionalForm]],ExpressionUUID->
+  "a54693cf-09ef-4ce3-981a-b5e47a019389"],
+ " | a \[Epsilon] \[CapitalNu], {b, c, d, e, f} \[Epsilon] {0, 1}}\nIn other \
+words, n can only have Fermat primes in its prime factorization no more than \
+once, and it can have 2 as many times as it wants.\nFor instance, a 21-gon is \
+not constructible since it can not be written in the above form (21\
+\[CloseCurlyQuote]s prime factorization is ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["3", "1"], TraditionalForm]],ExpressionUUID->
+  "2723bac3-eabf-4671-b207-5a2f735b8038"],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"*", " ", 
+    SuperscriptBox["7", "1"]}], TraditionalForm]],ExpressionUUID->
+  "a83270de-2690-4f29-9dc5-434a6816071a"],
+ " ).\nBut, a 160-gon is constructible (160 = ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["2", "5"], TraditionalForm]],ExpressionUUID->
+  "04baf18f-c39f-4dab-8f29-80aabf95bdd9"],
+ " * ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["5", "1"], TraditionalForm]],ExpressionUUID->
+  "a383e831-1d3d-4fc3-8e1a-6517a3402295"],
+ "). To do this, you would construct a regular pentagon, then perform the \
+bisections above 5 times.\nThe smallest polygon that is not constructible is \
+a 7-gon.\nThe largest regular polygon that can be constructed that has an odd \
+number of sides is a 4,294,967,295-gon (which is 3*5*17*257*65537).\n"
+}], "Text",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7537280504275365`*^9, 3.753728069480098*^9}, {
+  3.7537281099449396`*^9, 3.7537284956098557`*^9}, {3.753728540061082*^9, 
+  3.753728739500045*^9}, {3.753729026180997*^9, 3.75372905186662*^9}, {
+  3.753730320096766*^9, 3.753730406149953*^9}, {3.753730522970173*^9, 
+  3.753730542571254*^9}, {3.7537306514814205`*^9, 3.7537307353820734`*^9}, {
+  3.75373184279208*^9, 3.753731848425068*^9}, {3.7538304921399097`*^9, 
+  3.75383049240672*^9}, {3.7538306914616575`*^9, 
+  3.7538307209120264`*^9}},ExpressionUUID->"cd485f74-623c-4b6e-8196-\
+195e8dacd28f"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{766, 772},
+WindowMargins->{{-7, Automatic}, {Automatic, 0}},
+Magnification:>1.1 Inherited,
+FrontEndVersion->"11.2 for Microsoft Windows (64-bit) (September 10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 290, 7, 173, "Title",ExpressionUUID->"223b12be-1c8d-48aa-b900-31f8e3034212"],
+Cell[873, 31, 170, 3, 58, "Subsection",ExpressionUUID->"ee22b392-197e-4986-a49a-586490682d31"],
+Cell[CellGroupData[{
+Cell[1068, 38, 215, 4, 58, "Section",ExpressionUUID->"56a3a098-46e1-4111-a8b5-cba296080d8f"],
+Cell[1286, 44, 607, 10, 114, "Text",ExpressionUUID->"2601face-501f-48bd-86f3-ba9a0538f8f6"],
+Cell[CellGroupData[{
+Cell[1918, 58, 991, 27, 99, "Input",ExpressionUUID->"38533177-3884-40fc-a488-7f371f791cdf"],
+Cell[2912, 87, 410, 7, 217, "Output",ExpressionUUID->"ab7a95cb-9fd5-426f-b469-2032563cfc1c"]
+}, Open  ]],
+Cell[3337, 97, 357, 7, 37, "Text",ExpressionUUID->"9c60d67b-8a08-4a18-8dea-8a1619bd7f58"],
+Cell[CellGroupData[{
+Cell[3719, 108, 1433, 39, 121, "Input",ExpressionUUID->"a1ce121c-421d-4519-b495-2be9a4589337"],
+Cell[5155, 149, 735, 14, 256, "Output",ExpressionUUID->"234db492-2d1e-4c6a-9a09-0bb45abdb0da"]
+}, Open  ]],
+Cell[5905, 166, 436, 8, 63, "Text",ExpressionUUID->"c704b53f-2508-4ce5-a4e4-c3b8f90e5033"],
+Cell[CellGroupData[{
+Cell[6366, 178, 981, 28, 77, "Input",ExpressionUUID->"f7ff7fb0-ea55-4b38-92e7-844e9933913a"],
+Cell[7350, 208, 1320, 27, 240, "Output",ExpressionUUID->"85a9583b-3ac9-42f6-afe8-0916aa6f1582"]
+}, Open  ]],
+Cell[8685, 238, 326, 7, 63, "Text",ExpressionUUID->"00c5f3be-88a2-4c02-b303-35b90e1717e3"],
+Cell[CellGroupData[{
+Cell[9036, 249, 2181, 63, 121, "Input",ExpressionUUID->"c325cfd6-89cc-4223-add6-d7bafd62da71"],
+Cell[11220, 314, 1530, 31, 240, "Output",ExpressionUUID->"4904622b-ef38-445d-9fb7-47ae1fffa065"]
+}, Open  ]],
+Cell[12765, 348, 199, 3, 37, "Text",ExpressionUUID->"d5cbde17-a12a-4081-9fbd-628f0a6ff437"],
+Cell[CellGroupData[{
+Cell[12989, 355, 1265, 36, 77, "Input",ExpressionUUID->"ca1ed2f7-5103-44e1-a3c5-fce1fa99dcec"],
+Cell[14257, 393, 1601, 32, 240, "Output",ExpressionUUID->"745c9550-8ab6-4b0a-b411-f2aa68675e6a"]
+}, Open  ]],
+Cell[15873, 428, 300, 7, 37, "Text",ExpressionUUID->"2f6d01f7-561e-4909-9ee2-67b1f8575b7b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16210, 440, 181, 3, 73, "Section",ExpressionUUID->"d5407800-9b92-4c05-a4c3-5d1129c1b499"],
+Cell[16394, 445, 1287, 22, 316, "Text",ExpressionUUID->"91b3246b-7cc0-437a-8159-583154853e22"],
+Cell[CellGroupData[{
+Cell[17706, 471, 2088, 57, 165, "Input",ExpressionUUID->"09679ff8-bf7d-40e0-92ea-b32e98f5e44a"],
+Cell[19797, 530, 1111, 19, 415, "Output",ExpressionUUID->"ba9ef058-e40e-4c9c-90f9-d175ca5671ed"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20957, 555, 223, 4, 73, "Section",ExpressionUUID->"5712ce34-627c-4895-8d42-e13463e81e9b"],
+Cell[21183, 561, 738, 13, 139, "Text",ExpressionUUID->"ddc94441-4c88-4682-ad1a-5cbd52a156e9"],
+Cell[CellGroupData[{
+Cell[21946, 578, 708, 20, 77, "Input",ExpressionUUID->"2653dc84-6d9b-42ff-9c7b-db93a4c58603"],
+Cell[22657, 600, 330, 7, 217, "Output",ExpressionUUID->"f3613875-e6ed-44a0-ae64-34d70efc65fc"]
+}, Open  ]],
+Cell[23002, 610, 258, 6, 37, "Text",ExpressionUUID->"6b60badd-1d9f-4c83-8cb5-29b68b130727"],
+Cell[CellGroupData[{
+Cell[23285, 620, 1016, 28, 55, "Input",ExpressionUUID->"0ff4e19f-f299-474c-a3aa-e66772df165d"],
+Cell[24304, 650, 621, 14, 217, "Output",ExpressionUUID->"c07319ea-05ae-49fe-b0f1-cddf320520eb"]
+}, Open  ]],
+Cell[24940, 667, 280, 6, 63, "Text",ExpressionUUID->"1c6b74cf-27ff-4786-87aa-70326e5fa0d8"],
+Cell[CellGroupData[{
+Cell[25245, 677, 1361, 39, 55, "Input",ExpressionUUID->"cfce34d8-8198-4b01-9a0a-25f13962f093"],
+Cell[26609, 718, 708, 16, 217, "Output",ExpressionUUID->"24cd3521-3610-4042-aab4-85c73183251b"]
+}, Open  ]],
+Cell[27332, 737, 211, 5, 37, "Text",ExpressionUUID->"185c40f0-fe30-4d0f-aeaa-13966fe2b580"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27580, 747, 180, 3, 73, "Section",ExpressionUUID->"91cf2a9d-a1a3-4e8f-90fa-9bb457041505"],
+Cell[27763, 752, 462, 9, 89, "Text",ExpressionUUID->"95c3d0d2-cd51-419d-9e54-323504c13f2a"],
+Cell[CellGroupData[{
+Cell[28250, 765, 1924, 48, 99, "Input",ExpressionUUID->"b19d72cd-dc72-45e6-8832-1cf1cd91e124"],
+Cell[30177, 815, 1382, 23, 414, "Output",ExpressionUUID->"a2417e47-cf7e-4f66-a991-54a0807d3832"]
+}, Open  ]],
+Cell[31574, 841, 367, 7, 63, "Text",ExpressionUUID->"e4fcb734-12fb-464d-a8a0-51e91739c8d9"],
+Cell[CellGroupData[{
+Cell[31966, 852, 1683, 49, 143, "Input",ExpressionUUID->"49c6fce1-a7c7-4d63-9bcb-5f1c81fd2f9c"],
+Cell[33652, 903, 1991, 37, 414, "Output",ExpressionUUID->"0124d171-464a-4f60-ac31-81c6a4aab67f"]
+}, Open  ]],
+Cell[35658, 943, 232, 5, 37, "Text",ExpressionUUID->"bfe31492-fe9d-40a1-b7f3-36687a8d2488"],
+Cell[CellGroupData[{
+Cell[35915, 952, 1022, 27, 55, "Input",ExpressionUUID->"697b0bbc-e812-4033-bbaa-d17912e85273"],
+Cell[36940, 981, 2279, 46, 414, "Output",ExpressionUUID->"7f54e386-8e1c-4d8a-aafb-4c2cf32d19b9"]
+}, Open  ]],
+Cell[39234, 1030, 705, 12, 139, "Text",ExpressionUUID->"75f37144-829c-4a48-bf4a-de95c2595cc3"],
+Cell[CellGroupData[{
+Cell[39964, 1046, 7286, 185, 297, "Input",ExpressionUUID->"330fe5e6-9103-4f3b-a5f0-5d8bc4abd44a"],
+Cell[47253, 1233, 4414, 90, 496, "Output",ExpressionUUID->"d83fb2f2-dc89-4ed6-ab53-3aa15329282f"]
+}, Open  ]],
+Cell[51682, 1326, 2094, 63, 99, "Input",ExpressionUUID->"ccf9bce7-2e98-45e4-987a-e94d7abfdf72"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[53813, 1394, 175, 3, 73, "Section",ExpressionUUID->"c56807dc-9bce-4e95-a81a-1b22752d78a6"],
+Cell[53991, 1399, 473, 8, 63, "Text",ExpressionUUID->"89097447-ca5f-49b6-bd64-12edde8edf5a"],
+Cell[CellGroupData[{
+Cell[54489, 1411, 852, 24, 55, "Input",ExpressionUUID->"601797c2-46b6-484b-ac66-3e0e2c419f56"],
+Cell[55344, 1437, 391, 8, 495, "Output",ExpressionUUID->"6e87197c-5dd3-4d72-82a5-1107532f19d0"]
+}, Open  ]],
+Cell[55750, 1448, 326, 7, 63, "Text",ExpressionUUID->"39fb49a9-c1f4-467d-a5b9-931fdf5baeba"],
+Cell[CellGroupData[{
+Cell[56101, 1459, 2059, 60, 99, "Input",ExpressionUUID->"4abd0986-a22b-4cfc-bbca-d58463a0016f"],
+Cell[58163, 1521, 802, 15, 495, "Output",ExpressionUUID->"cca62504-5617-447b-bb43-a47f11ef24c1"]
+}, Open  ]],
+Cell[58980, 1539, 232, 6, 37, "Text",ExpressionUUID->"37ff92e5-4342-468c-8dfa-b42e8e14c6f8"],
+Cell[CellGroupData[{
+Cell[59237, 1549, 2494, 76, 121, "Input",ExpressionUUID->"39861365-7ff2-44f0-9cd4-584f59bb190f"],
+Cell[61734, 1627, 987, 18, 414, "Output",ExpressionUUID->"b8e2aa4e-8931-4c59-a7cf-3743de00de50"]
+}, Open  ]],
+Cell[62736, 1648, 379, 7, 89, "Text",ExpressionUUID->"d0586c1e-0113-401d-8840-761dfc7281d4"],
+Cell[CellGroupData[{
+Cell[63140, 1659, 5661, 146, 253, "Input",ExpressionUUID->"1f941e17-e2f8-406e-89e8-f8672ef776b3"],
+Cell[68804, 1807, 3512, 74, 496, "Output",ExpressionUUID->"a506941f-48bb-41c3-9db1-caf31d0f9120"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[72365, 1887, 178, 3, 71, "Section",ExpressionUUID->"0bb36564-b6a2-4a6d-bf43-42ea3e62894c"],
+Cell[72546, 1892, 908, 14, 191, "Text",ExpressionUUID->"8bf5ce13-9b54-4ae8-b1e2-9268429cfb24"],
+Cell[CellGroupData[{
+Cell[73479, 1910, 4963, 127, 275, "Input",ExpressionUUID->"68f38638-c52c-4fbc-9e43-c3fd7dbac80f"],
+Cell[78445, 2039, 3033, 55, 415, "Output",ExpressionUUID->"a8060f19-ed82-4fd9-9ac3-c8d26161a8f9"]
+}, Open  ]],
+Cell[81493, 2097, 738, 12, 166, "Text",ExpressionUUID->"d3930a7f-858d-4eb9-b8b3-d6e3b7c006b3"],
+Cell[CellGroupData[{
+Cell[82256, 2113, 1962, 53, 121, "Input",ExpressionUUID->"0001a24e-796a-4cec-a159-37adad68ddef"],
+Cell[84221, 2168, 5778, 109, 415, "Output",ExpressionUUID->"0702d1c5-6495-4681-84f3-f34c65449bfb"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[90036, 2282, 177, 3, 59, "Subsection",ExpressionUUID->"3158f45d-9369-4b34-a05e-b25f3fc0b3db"],
+Cell[90216, 2287, 996, 17, 242, "Text",ExpressionUUID->"923f559d-c44c-4642-bdee-ba3421dee2f3"],
+Cell[CellGroupData[{
+Cell[91237, 2308, 3113, 83, 253, "Input",ExpressionUUID->"17803ac6-3bd3-428e-bb58-5d97c55a10dc"],
+Cell[94353, 2393, 1870, 34, 415, "Output",ExpressionUUID->"ca3e07e8-7e08-4481-bef8-7728ed487726"]
+}, Open  ]],
+Cell[96238, 2430, 270, 6, 65, "Text",ExpressionUUID->"43b09142-d101-4736-8ecb-c0496643dcda"],
+Cell[96511, 2438, 898, 23, 99, "Input",ExpressionUUID->"1647454a-885d-496f-b24f-2e9cce193f6b"],
+Cell[CellGroupData[{
+Cell[97434, 2465, 1566, 41, 121, "Input",ExpressionUUID->"5806d970-4297-4bab-ae34-8a37b6039b76"],
+Cell[99003, 2508, 1426, 30, 415, "Output",ExpressionUUID->"0167ba24-3047-47e9-b563-8f96c71d6f0b"]
+}, Open  ]],
+Cell[100444, 2541, 699, 11, 141, "Text",ExpressionUUID->"03065d1d-8354-4641-aa7b-cc58585a2f94"],
+Cell[101146, 2554, 177, 3, 32, "Input",ExpressionUUID->"a5ca249d-cfe8-48b1-a641-c6f95688f6f6"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[101372, 2563, 403, 12, 73, "Section",ExpressionUUID->"a3f79bc1-eb36-4746-8985-594848e2cc14"],
+Cell[101778, 2577, 838, 16, 166, "Text",ExpressionUUID->"1ccf69d6-5e89-499b-8d3c-3131ba9ea319"],
+Cell[CellGroupData[{
+Cell[102641, 2597, 2415, 72, 275, "Input",ExpressionUUID->"45f605ee-a886-46fe-a552-53b5608050bf"],
+Cell[105059, 2671, 620, 11, 414, "Output",ExpressionUUID->"661ea30a-4b2b-48ff-bf4a-213eaed6115f"]
+}, Open  ]],
+Cell[105694, 2685, 374, 8, 65, "Text",ExpressionUUID->"230cb40e-b938-406d-be2e-4d467aa0cfe2"],
+Cell[CellGroupData[{
+Cell[106093, 2697, 1924, 51, 99, "Input",ExpressionUUID->"931b13be-0809-4982-a68c-1301d4cf8f8a"],
+Cell[108020, 2750, 2028, 34, 414, "Output",ExpressionUUID->"774c1655-821d-41d1-a085-780ab86fddfd"]
+}, Open  ]],
+Cell[110063, 2787, 268, 6, 39, "Text",ExpressionUUID->"9b3fe268-ce6c-413d-bd71-17309ab87a9f"],
+Cell[CellGroupData[{
+Cell[110356, 2797, 2718, 76, 187, "Input",ExpressionUUID->"9d75806a-ff05-42b6-adaa-bbdb56bb5837"],
+Cell[113077, 2875, 3262, 53, 414, "Output",ExpressionUUID->"ff2be88b-d599-421c-9c94-b92ee9bedbdb"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[116376, 2933, 201, 3, 59, "Subsection",ExpressionUUID->"d4022264-1b46-4f3d-b601-7c8419acc65c"],
+Cell[116580, 2938, 612, 14, 65, "Text",ExpressionUUID->"82a67864-0ea9-4574-a76d-201c970b3c74"],
+Cell[CellGroupData[{
+Cell[117217, 2956, 3201, 87, 253, "Input",ExpressionUUID->"624d5b46-9bab-47fc-8d8e-353cdfd3132c"],
+Cell[120421, 3045, 1771, 33, 415, "Output",ExpressionUUID->"b3013b90-2074-42dd-8629-bde8aba675ca"]
+}, Open  ]],
+Cell[122207, 3081, 628, 11, 166, "Text",ExpressionUUID->"f5620e25-808a-4951-a50f-e611188679de"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[122884, 3098, 186, 3, 73, "Section",ExpressionUUID->"c139883d-07c9-480f-9e46-db283e702b85"],
+Cell[123073, 3103, 3924, 93, 549, "Text",ExpressionUUID->"cd485f74-623c-4b6e-8196-195e8dacd28f",
+ InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
